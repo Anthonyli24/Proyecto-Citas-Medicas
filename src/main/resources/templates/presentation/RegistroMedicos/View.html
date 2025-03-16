@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medicos</title>
+    <style>
+        table{boder-collapse: collapse; width: 100%;}
+        th,td{padding: 8px; text-align: left; border-bottom: 1px solid gray;}
+        tr:hover{background-color: #f5f5f5;}
+    </style>
+</head>
+<body>
+<header><h2>Registro Medicos</h2></header>
+<div class  ="centered">
+    <p>Ingrese los datos del medico</p><br>
+
+    <form action="/registro/medicos/guardar" method="post" th:object="${medico}">
+        <input type="text" th:field="*{id}" placeholder="ID del médico">
+        <input type="text" th:field="*{especialidad}" placeholder="Especialidad">
+        <input type="number" th:field="*{costo}" placeholder="Costo de consulta">
+        <input type="text" th:field="*{localidad}" placeholder="Localidad">
+
+        <label for="frecuencia">Frecuencia de citas:</label>
+        <select id="frecuencia" th:field="*{frecuenciaCitas}">
+            <option value="20">20 minutos</option>
+            <option value="30">30 minutos</option>
+            <option value="60">60 minutos</option>
+        </select>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+</div>
+
+<footer>Pie de Página</footer>
+
+</body>
+</html>

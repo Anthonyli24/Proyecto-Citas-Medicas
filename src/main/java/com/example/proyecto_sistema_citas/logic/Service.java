@@ -1,5 +1,6 @@
 package com.example.proyecto_sistema_citas.logic;
 
+import com.example.proyecto_sistema_citas.data.MedicoRepository;
 import com.example.proyecto_sistema_citas.data.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,9 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Service {
    @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private MedicoRepository medicoRepository;
 
 
-   public Iterable<Usuario> usuarioFindAll(){
+    public Iterable<Usuario> usuarioFindAll(){
        return usuarioRepository.findAll();
    }
+
+   public void registrarMedico(Medico medico){
+       medicoRepository.save(medico);
+   }
+
 }
