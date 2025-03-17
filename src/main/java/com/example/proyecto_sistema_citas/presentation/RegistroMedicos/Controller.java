@@ -19,7 +19,4 @@ public class Controller {
         model.addAttribute("medico", new Medico()); // Para enlazar con el formulario
         return "/presentation/RegistroMedicos/View";
     }
-
-
-
 }

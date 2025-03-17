@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Appointments Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            background-color: #e0f2fb;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 100px;
+            margin-left: 100px;
+            margin-right: 10px;
+            border-radius: 25px;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            margin-right: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+        .login-box {
+            background-color: rgba(255, 255, 255, 0.56);
+            padding: 35px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        .login-box img {
+            width: 75px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .login-btn {
+            background-color: #119dac;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            width: 75%;
+        }
+
+        .register {
+            margin-top: 10px;
+        }
+        .footer {
+            background-color: #2c2f33;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .social-icons img {
+            width: 30px;
+            margin-left: 5px;
+        }
+
+        .register-btn {
+            background-color: #f1f1f1;
+            color: #ac1116;
+            padding: 10px;
+            border: 1px solid #119dac;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .register-btn:hover {
+            background-color: #119dac;
+            color: white;
+        }
+
+        .contact {
+            justify-content: center;
+            margin-right: 95px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="logo">
+        <img src="images/logo.jpg" alt="Logo">
+        <h3>Medical Appointments</h3>
+    </div>
+    <div class="contact">
+        <span>📞 +506 5467 0937</span>
+    </div>
+    <div class="nav-links">
+        <a href="">About</a>
+        <a href="">Search</a>
+        <a href="#">Login</a>
+    </div>
+</div>
+
+<!-- Login Form -->
+<div class="login-container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <img src="images/user.png" alt="User Icon">
+        <div class="input-group">
+            <input type="text" placeholder="User id">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="User Password">
+        </div>
+        <button class="login-btn">Log in</button>
+        <div class="register">
+            <p>Don't have an account?</p>
+            <button class="register-btn">Register here</button>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div>Total Soft Inc.</div>
+    <div class="social-icons">
+        <img src="images/twitter.png" alt="Twitter">
+        <img src="images/facebook.png" alt="Facebook">
+        <img src="images/instagram.png"  alt="Instagram"/>
+
+    </div>
+    <div>©2019 Tsf, Inc.</div>
+</div>
+
+</body>
+</html>

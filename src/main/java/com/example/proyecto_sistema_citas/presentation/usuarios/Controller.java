@@ -11,6 +11,10 @@ public class Controller {
     @Autowired
     private Service service;
 
+    @GetMapping("/login")
+    public String Login(Model model) {
+        return "/presentation/Login/login";
+    }
 
     @GetMapping("/listado/usuarios")
     public String ListarUsuarios(Model model) {
