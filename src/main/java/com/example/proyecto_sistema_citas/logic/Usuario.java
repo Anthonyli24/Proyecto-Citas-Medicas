@@ -69,4 +69,16 @@ public class Usuario {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", clave='" + clave + '\'' +
+                ", rol=" + rol +
+                ", nombre='" + nombre + '\'' +
+                ", administrador=" + administrador +
+                '}';
+    }
+
 }

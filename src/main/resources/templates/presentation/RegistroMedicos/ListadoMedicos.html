@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seguros Spring</title>
+    <style>
+        table{boder-collapse: collapse; width: 100%;}
+        th,td{padding: 8px; text-align: left; border-bottom: 1px solid gray;}
+        tr:hover{background-color: #f5f5f5;}
+    </style>
+</head>
+<body>
+<header>Medico</header>
+<div class  ="centered">
+    <table style="border:1px solid blue">
+        <tr><th>Id</th> <th>Usuario</th><th>Especialidad</th> <th>costo</th> <th>Localidad</th><th>Frecuencia de citas</th><th>Horarios</th></tr>
+        <tr th:each="c: ${medicos}">
+            <td th:text="${c.getId()}"/>
+            <td th:text="${c.getUsuario().getNombre()}"/>
+            <td th:text="${c.getEspecialidad()}"/>
+            <td th:text="${c.getCosto()}"/>
+            <td th:text="${c.getLocalidad()}"/>
+            <td th:text="${c.getFrecuenciaCitas()}"/>
+            <td th:text="${c.getHorarios()}"/>
+
+        </tr>
+
+    </table>
+</div>
+
+<footer>My Company</footer>
+
+</body>
+</html>

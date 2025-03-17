@@ -18,6 +18,7 @@ public class Medico {
     @Column(name = "id", nullable = false, length = 100)
     private String id;
 
+
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -101,4 +102,16 @@ public class Medico {
         this.horarios = horarios;
     }
 
+    @Override
+    public String toString() {
+        return "Medico{" +
+                "id='" + id + '\'' +
+                ", usuario=" + usuario +
+                ", especialidad='" + especialidad + '\'' +
+                ", costo=" + costo +
+                ", localidad='" + localidad + '\'' +
+                ", frecuenciaCitas=" + frecuenciaCitas +
+                ", horarios=" + horarios +
+                '}';
+    }
 }

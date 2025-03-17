@@ -22,4 +22,10 @@ public class Controller {
         return "/presentation/usuarios/View";
     }
 
+    //ESTO VA EN OTRO LADO
+    @GetMapping("/about")
+    public String About(Model model) {
+        return "/presentation/about/about";
+    }
+
 }
