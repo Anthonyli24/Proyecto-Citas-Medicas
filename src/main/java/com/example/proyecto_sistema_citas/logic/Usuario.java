@@ -27,6 +27,17 @@ public class Usuario {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
+    @OneToOne(mappedBy = "usuario") // Relación con Médico
+    private Medico medico;
+
+    public Medico getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }
+
     @OneToOne(mappedBy = "usuario") // Esto hace referencia al campo `usuario` en la clase Administrador
     private Administrador administrador;
 

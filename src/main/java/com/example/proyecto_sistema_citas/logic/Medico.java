@@ -46,6 +46,10 @@ public class Medico {
     @OneToMany(mappedBy = "medico")
     private Set<Horario> horarios = new LinkedHashSet<>();
 
+    @Size(max = 255)
+    @Column(name = "imagen", length = 255)
+    private String imagen;
+
     public String getId() {
         return id;
     }
@@ -101,6 +105,10 @@ public class Medico {
     public void setHorarios(Set<Horario> horarios) {
         this.horarios = horarios;
     }
+
+    public String getImagen() {return imagen;}
+
+    public void setImagen(String imagen) {this.imagen = imagen;}
 
     @Override
     public String toString() {

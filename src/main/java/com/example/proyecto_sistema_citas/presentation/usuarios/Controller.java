@@ -11,21 +11,30 @@ public class Controller {
     @Autowired
     private Service service;
 
-    @GetMapping("/login")
-    public String Login(Model model) {
-        return "/presentation/Login/login";
-    }
-
-    @GetMapping("/listado/usuarios")
+    @GetMapping("/home")
     public String ListarUsuarios(Model model) {
         model.addAttribute("usuarios", service.usuarioFindAll());
-        return "/presentation/usuarios/View";
+        return "/presentation/Home/home";
     }
 
     //ESTO VA EN OTRO LADO
     @GetMapping("/about")
     public String About(Model model) {
-        return "/presentation/about/about";
+        return "/presentation/About/about";
     }
 
+    @GetMapping("/login")
+    public String Login(Model model) {
+        return "/presentation/Login/login";
+    }
+
+    @GetMapping("/css")
+    public String CSS(Model model) {
+        return "/static/css";
+    }
+
+    @GetMapping("/")
+    public String redirigir() {
+        return "redirect:/home";
+    }
 }
