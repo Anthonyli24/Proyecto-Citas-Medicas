@@ -17,24 +17,4 @@ public class Controller {
         return "/presentation/Home/home";
     }
 
-    //ESTO VA EN OTRO LADO
-    @GetMapping("/about")
-    public String About(Model model) {
-        return "/presentation/About/about";
-    }
-
-    @GetMapping("/login")
-    public String Login(Model model) {
-        return "/presentation/Login/login";
-    }
-
-    @GetMapping("/css")
-    public String CSS(Model model) {
-        return "/static/css";
-    }
-
-    @GetMapping("/")
-    public String redirigir() {
-        return "redirect:/home";
-    }
 }
