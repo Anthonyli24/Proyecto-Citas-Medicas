@@ -59,22 +59,36 @@ html, body {
 
 .appointment-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    margin-bottom: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.appointment-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-left: 24px;
 }
 
 .appointment-table td {
+    width: auto;
     background: white;
     border-radius: 8px;
     padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     vertical-align: middle;
 }
 
 .doctor-info {
     display: flex;
     align-items: center;
+    flex: 1;
+    gap: 15px;
 }
 
 .doctor-info img {
@@ -94,45 +108,63 @@ html, body {
     color: gray;
 }
 
-.location {
-    color: orange;
+.availability {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.availability {
+.dates-times-container {
+    display: flex;
+    gap: 20px;
+}
+
+.date-container {
     text-align: center;
 }
 
 .date {
     font-size: 14px;
-    color: orange;
     font-weight: bold;
+    color: orange;
     margin-bottom: 5px;
 }
 
-.times {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
 .times span {
+    display: block;
     background: rgba(0, 122, 255, 0.1);
     color: #007aff;
     padding: 5px 10px;
     border-radius: 12px;
+    margin: 2px 0;
     font-size: 12px;
 }
 
-.schedule-btn {
-    background: rgba(0, 122, 255, 0.1);
+.times span:hover {
+    background: #007aff;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Prev and Next buttons */
+.nav-button {
+    background: #e0ecff;
     color: #007aff;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 12px;
     border-radius: 15px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
 }
+
+.nav-button:hover {
+    background: #007aff;
+    color: white;
+}
+
 
 .footer {
     text-align: center;

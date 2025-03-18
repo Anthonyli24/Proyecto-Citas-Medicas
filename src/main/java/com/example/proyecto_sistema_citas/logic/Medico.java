@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import java.time.LocalTime;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -110,16 +112,29 @@ public class Medico {
 
     public void setImagen(String imagen) {this.imagen = imagen;}
 
-    @Override
-    public String toString() {
-        return "Medico{" +
-                "id='" + id + '\'' +
-                ", usuario=" + usuario +
-                ", especialidad='" + especialidad + '\'' +
-                ", costo=" + costo +
-                ", localidad='" + localidad + '\'' +
-                ", frecuenciaCitas=" + frecuenciaCitas +
-                ", horarios=" + horarios +
-                '}';
+    public Map<String, List<String>> getFechas() {
+        Map<String, List<String>> disponibilidad = new LinkedHashMap<>();
+
+        for (Horario horario : horarios) {
+            List<String> horariosGenerados = generarHorarios(horario);
+            disponibilidad.put(horario.getDia(), horariosGenerados);
+        }
+
+        return disponibilidad;
     }
+
+    private List<String> generarHorarios(Horario horario) {
+        List<String> horariosGenerados = new ArrayList<>();
+        LocalTime inicio = horario.getHoraInicio();
+        LocalTime fin = horario.getHoraFin();
+        int frecuencia = this.frecuenciaCitas;
+
+        while (!inicio.isAfter(fin)) {
+            horariosGenerados.add(inicio.toString());
+            inicio = inicio.plusMinutes(frecuencia);
+        }
+
+        return horariosGenerados;
+    }
+
 }

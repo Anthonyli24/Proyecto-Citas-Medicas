@@ -74,4 +74,7 @@ public class Horario {
         this.horaFin = horaFin;
     }
 
+    public String getHoraInicioStr() {return horaInicio.toString();}
+
+    public String getHoraFinStr() {return horaFin.toString();}
 }

@@ -22,24 +22,31 @@
 </div>
 
 <table class="appointment-table">
-    <tr th:each="usuario : ${usuarios}"th:if="${usuario.getRol().getId() == 2}">
+    <tr th:each="usuario : ${usuarios}" th:if="${usuario.getRol().getId() == 2}" class="appointment-row">
         <td class="doctor-info">
             <img th:src="@{/images/{img}(img=${usuario.getMedico().getImagen()})}" alt="Usuario">
-            <div>
+            <div class="doctor-details">
                 <strong th:text="${usuario.getNombre()}"></strong>
                 <span class="price" th:text="${usuario.getMedico().getCosto()}"></span>
                 <p th:text="${usuario.getMedico().getEspecialidad()}"></p>
-                <p class="hospital">
-                    <span th:text="${usuario.getMedico().getLocalidad()}"></span>
-                </p>
+                <p class="hospital" th:text="${usuario.getMedico().getLocalidad()}"></p>
             </div>
         </td>
-        <td>
-            <button class="schedule-btn">
-            </button>
+
+        <td class="availability">
+            <div class="dates-times-container">
+                <div th:each="fecha : ${usuario.getMedico().getFechas()}" class="date-container">
+                    <div class="date" th:text="${fecha.key}"></div>
+                    <div class="times">
+                        <span th:each="hora : ${fecha.value}" th:text="${hora}"></span>
+                    </div>
+                </div>
+            </div>
         </td>
     </tr>
 </table>
+
+
 <div class="footer">
     <div>Total Soft Inc.</div>
     <div class="social-icons">
