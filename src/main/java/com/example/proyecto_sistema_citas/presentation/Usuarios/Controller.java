@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.presentation.usuarios;
+package com.example.proyecto_sistema_citas.presentation.Usuarios;
 
 import com.example.proyecto_sistema_citas.logic.Service;
 import org.springframework.beans.factory.annotation.Autowired;

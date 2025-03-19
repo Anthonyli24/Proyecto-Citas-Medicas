@@ -20,6 +20,11 @@ public class controller {
         return "/presentation/Login/login";
     }
 
+    @GetMapping("/register")
+    public String Registro(Model model) {
+        return "/presentation/Register/register";
+    }
+
     @GetMapping("/css")
     public String CSS(Model model) {
         return "/static/css";
