@@ -3,18 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Medicos</title>
-    <style>
-        table{border-collapse: collapse; width: 100%;}
-        th, td{padding: 8px; text-align: left; border-bottom: 1px solid gray;}
-        tr:hover{background-color: #f5f5f5;}
-    </style>
+    <link rel="stylesheet" href="../../../static/css/RegistroMedicos.css">
 </head>
 <body>
-<header><h2>Registro Medicos</h2></header>
-<div class="centered">
-    <p>Ingrese los datos del médico</p><br>
+<div class="header">
+<div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+</div>
+<div class="contact">
+    📞 +506 5467 0937
+</div>
+<div class="nav-links">
+    <a href="/about">About</a>
+    <a href="/home">Home</a>
+</div>
+</div>
 
+<div class="centered">
+    <header><h2>Medicos</h2></header>
     <form action="/registro/medicos/guardar" method="post" th:object="${medico}">
+        <label for="usuario">Usuario:</label>
+        <select id="usuario" th:field="*{usuario}">
+            <option th:each="user : ${usuarios}"
+                    th:value="${user.id}"
+                    th:text="${user.nombre}">Seleccione un usuario</option>
+        </select>
         <input type="text" th:field="*{id}" placeholder="ID del médico">
         <input type="text" th:field="*{especialidad}" placeholder="Especialidad">
         <input type="number" th:field="*{costo}" placeholder="Costo de consulta">
@@ -27,21 +41,20 @@
             <option value="60">60 minutos</option>
         </select>
 
-        <!-- Campo para seleccionar un Usuario -->
-        <label for="usuario">Usuario:</label>
-        <select id="usuario" th:field="*{usuario}">
-            <option th:each="user : ${usuarios}"
-                    th:value="${user.id}"
-                    th:text="${user.nombre}">Seleccione un usuario</option>
-        </select>
-
-
         <button type="submit">Guardar</button>
     </form>
 
 </div>
 
-<footer>Pie de Página</footer>
+<div class="footer">
+    <div>Total Soft Inc.</div>
+    <div class="social-icons">
+        <img src="/images/twitter.png" alt="Twitter">
+        <img src="/images/facebook.png" alt="Facebook">
+        <img src="/images/instagram.png" alt="Instagram"/>
+    </div>
+    <div>©2019 Tsf, Inc.</div>
+</div>
 
 </body>
 </html>
