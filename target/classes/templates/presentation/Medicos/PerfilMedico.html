@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Medicos</title>
-    <link rel="stylesheet" href="../../../static/css/RegistroMedicos.css">
+    <link rel="stylesheet" href="../../../static/css/PerfilMedicos.css">
 </head>
 <body>
 <div class="header">
@@ -21,7 +21,7 @@
 </div>
 
 <div class="centered">
-    <header><h2>Medicos</h2></header>
+    <header><h2>Perfil del Medico</h2></header>
     <form action="/registro/medicos/guardar" method="post" th:object="${medico}">
         <label for="usuario">Usuario:</label>
         <select id="usuario" th:field="*{usuario}">

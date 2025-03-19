@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.presentation.RegistroMedicos;
+package com.example.proyecto_sistema_citas.presentation.Medicos;
 
 import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
