@@ -14,7 +14,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(customizer->customizer
-                .requestMatchers("/","/listado/medicos","/about","/home","/login","/registro","/register/RegistroExitoso","/register/guardar","/css/**","/images/**").permitAll()
+                .requestMatchers("/","/listado/medicos","/about","/home","/login","/registro","/registroMedico","/register/RegistroExitoso","/register/guardar","/css/**","/images/**").permitAll()
                 .requestMatchers("/registro/medicos/guardar").hasAuthority("3").anyRequest().authenticated())
                 .formLogin(customizer->customizer.loginPage("/login").permitAll())
                 .logout(customizer->customizer.permitAll().logoutSuccessUrl("/"))

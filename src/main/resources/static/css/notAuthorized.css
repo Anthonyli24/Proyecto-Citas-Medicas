@@ -29,7 +29,7 @@ body {
 }
 
 .logo h3 {
-    color: red;
+    color: #119dac;
     margin-left: 10px;
 }
 
@@ -48,7 +48,7 @@ body {
     color: black;
 }
 
-.authorized-container-container {
+.authorized-container {
     padding: 40px;
     max-width: 1000px;
     margin: auto;
@@ -57,8 +57,8 @@ body {
     border-radius: 10px;
 }
 
-.about-container h2 {
-    color: #119dac;
+.authorized-container h2 {
+    color: red;
     text-align: center;
 }
 

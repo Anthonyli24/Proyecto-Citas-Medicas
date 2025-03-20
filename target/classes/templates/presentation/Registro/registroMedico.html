@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro Medico - Sistema de Citas Médicas</title>
+  <link rel="stylesheet" href="/css/registroMedico.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+  </div>
+  <div class="contact">
+    <span>📞 +506 5467 0937</span>
+  </div>
+  <div class="nav-links">
+    <a href="/about">About</a>
+    <a href="/home">Search</a>
+    <a href="/login">Login</a>
+  </div>
+</div>
+
+<div class="registerDoc-container">
+  <form action="/register/guardar" method="post">
+    <div class="registerDoc-box">
+      <h2>Información del Medico</h2>
+      <img src="/images/user.png" alt="User Icon">
+      <div class="input-group">
+        <input type="text" name="especialidad" placeholder="Especialidad" required>
+      </div>
+      <div class="input-group">
+        <input type="text" name="costo" placeholder="Costo" required>
+      </div>
+      <div class="input-group">
+        <input type="text" name="localidad" placeholder="Localidad en la que atiende" required>
+      </div>
+      <div class="input-group">
+        <input type="text" name="frecuencia" placeholder="Frecuencia de citas en minutos" required>
+      </div>
+      <button type="submit" class="registrarse-btn">Registrarse</button>
+    </div>
+  </form>
+</div>
+
+<div class="footer">
+  <div>Total Soft Inc.</div>
+  <div class="social-icons">
+    <img src="/images/twitter.png" alt="Twitter">
+    <img src="/images/facebook.png" alt="Facebook">
+    <img src="/images/instagram.png" alt="Instagram"/>
+  </div>
+  <div>©2019 Tsf, Inc.</div>
+</div>
+
+</body>
+</html>

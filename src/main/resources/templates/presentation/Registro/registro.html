@@ -28,28 +28,27 @@
             <h2>Registro</h2>
             <img src="/images/user.png" alt="User Icon">
             <div class="input-group">
-                <input type="text" name="id" placeholder="User id">
+                <input type="text" name="id" placeholder="User id" required>
             </div>
             <div class="input-group">
-                <input type="password" name="clave" placeholder="User password">
+                <input type="password" name="clave" placeholder="User password" required>
             </div>
             <div class="input-group">
-                <input type="text" name="nombre" placeholder="Name">
+                <input type="text" name="nombre" placeholder="Name" required>
             </div>
-            <div class="input-group">
-                <label for="frecuencia">Rol:</label>
-                <select id="frecuencia" name="rol">
-                    <!-- Iterar sobre la lista de roles -->
+            <div>
+                <select id="rol" name="rol">
                     <th:block th:each="rol : ${roles}">
                         <option th:value="${rol.id}" th:text="${rol.nombre}"></option>
                     </th:block>
                 </select>
             </div>
+            <div class="input-group">
+                    <input type="file" name="file" id="file">
+            </div>
             <button type="submit" class="registrarse-btn">Registrarse</button>
         </div>
     </form>
-
-
 </div>
 
 <div class="footer">

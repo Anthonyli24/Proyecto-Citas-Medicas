@@ -103,19 +103,13 @@ body {
     font-size: 16px;
 }
 
-.input-group i {
-    margin-left: 10px;
-    color: gray;
-}
-
 select {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background: white;
     font-size: 16px;
-    margin-bottom: 10px
 }
 
 .registrarse-btn {
@@ -148,4 +142,3 @@ select {
     margin-left: 5px;
     justify-content: right;
 }
-

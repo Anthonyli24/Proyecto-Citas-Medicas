@@ -70,27 +70,37 @@ body {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 50px;
     border-radius: 12px;
-    width: 450px;
+    width: 350px;
     text-align: center;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
 }
 
+.login-box h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
 .login-box img {
-    width: 90px;
+    width: 80px;
     margin-bottom: 15px;
 }
 
 .input-group {
-    margin: 20px 0;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    background: white;
 }
 
 input {
-    width: 95%;
-    padding: 12px;
-    margin: 8px 0;
-    font-size: 18px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
 }
 
 .button{

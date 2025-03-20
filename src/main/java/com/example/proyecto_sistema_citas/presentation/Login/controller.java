@@ -10,9 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @org.springframework.stereotype.Controller("Login")
 public class controller {
@@ -35,6 +32,11 @@ public class controller {
         // Pasar la lista de roles al modelo
         model.addAttribute("roles", roles);
         return "/presentation/Registro/registro";
+    }
+
+    @GetMapping("/registroMedico")
+    public String registroMedico(Model model) {
+        return "/presentation/Registro/registroMedico";
     }
 
     @GetMapping("/login")
@@ -68,10 +70,8 @@ public class controller {
         return "/presentation/Registro/RegistroExitoso";
     }
 
-
     @GetMapping("/RegistroExitoso")
     public String RegistroExitoso(Model model) {
-        return "redirect: /home";
+        return "redirect: /";
     }
-
 }
