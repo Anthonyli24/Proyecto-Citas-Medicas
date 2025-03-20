@@ -17,22 +17,6 @@ public class Controller {
     private Service service;
 
 
-    @GetMapping("/registro/medicos")
-    public String registrarMedicos(Model model) {
-        List<Usuario> usuarios = (List<Usuario>) service.usuarioFindAll();
-        model.addAttribute("medico", new Medico());
-        model.addAttribute("usuarios", usuarios);
-        return "/presentation/RegistroMedicos/View";
-    }
-
-    @PostMapping("/registro/medicos/guardar")
-    public String guardarMedico(@ModelAttribute Medico medico) {
-        System.out.println(medico.toString());
-        service.registrarMedico(medico);
-        return "/presentation/RegistroMedicos/ListadoMedicos";
-    }
-
-
     @GetMapping("/listado/medicos")
     public String ListarMedicos(Model model) {
         model.addAttribute("medicos", service.medicoFindAll());

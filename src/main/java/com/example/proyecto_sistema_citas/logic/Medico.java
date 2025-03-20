@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -80,8 +79,8 @@ public class Medico {
         return costo;
     }
 
-    public void setCosto(BigDecimal costo) {
-        this.costo = costo;
+    public void setCosto(double costo) {
+        this.costo = BigDecimal.valueOf(costo);
     }
 
     public String getLocalidad() {

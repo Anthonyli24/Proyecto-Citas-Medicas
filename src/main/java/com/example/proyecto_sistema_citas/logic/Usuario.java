@@ -86,7 +86,7 @@ public class Usuario {
         return "Usuario{" +
                 "id='" + id + '\'' +
                 ", clave='" + clave + '\'' +
-                ", rol=" + rol +
+                ", rol=" + rol.getNombre() +
                 ", nombre='" + nombre + '\'' +
                 ", administrador=" + administrador +
                 '}';

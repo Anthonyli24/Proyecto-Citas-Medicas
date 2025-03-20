@@ -23,7 +23,7 @@
 </div>
 
 <div class="registerDoc-container">
-  <form action="/register/guardar" method="post">
+  <form th:action="@{/register/guardar/medico/{id}(id=${usuario.id})}" method="post">
     <div class="registerDoc-box">
       <h2>Información del Medico</h2>
       <img src="/images/user.png" alt="User Icon">
@@ -42,6 +42,7 @@
       <button type="submit" class="registrarse-btn">Registrarse</button>
     </div>
   </form>
+
 </div>
 
 <div class="footer">

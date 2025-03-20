@@ -38,6 +38,10 @@ public class Service {
         return rolRepository.findAll();
     }
 
+    public Usuario findUsuarioById(String id){
+        return usuarioRepository.findById(id).get() ;
+    }
+
 
 
 }

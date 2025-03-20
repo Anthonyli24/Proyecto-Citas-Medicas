@@ -37,7 +37,7 @@
                 <input type="text" name="nombre" placeholder="Name" required>
             </div>
             <div>
-                <select id="rol" name="rol">
+                <select id="rol" name="rol" required>
                     <th:block th:each="rol : ${roles}">
                         <option th:value="${rol.id}" th:text="${rol.nombre}"></option>
                     </th:block>
