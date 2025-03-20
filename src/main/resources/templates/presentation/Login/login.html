@@ -22,21 +22,30 @@
 </div>
 
 <div class="login-container">
+    <form action="/login" method="post">
     <div class="login-box">
         <h2>Login</h2>
         <img src="/images/user.png" alt="User Icon">
+
         <div class="input-group">
-            <input type="text" placeholder="User id">
+            <input type="text" id="username" name="username" placeholder="Usuario">
         </div>
-        <div class="input-group">
-            <input type="password" placeholder="User Password">
+        <div>
+            <div class="input-group"></div>
+            <input type="password" id="password" name="password" placeholder="Clave" required/>
         </div>
-        <button class="login-btn">Log in</button>
+
+        <div class="login-btn"><input type="submit" name="login" value="Login" class="button"></div>
+
         <div class="register">
             <p>Don't have an account?</p>
-            <a href="/about" class="register-btn">Register here</a>
+            <a href="/registro" class="register-btn">Register here</a>
         </div>
     </div>
+    </form>
+</div>
+<div th:if="${param.error != null}" class="error">
+    <p>Credenciales Incorrectas</p>
 </div>
 
 <div class="footer">
@@ -51,3 +60,5 @@
 
 </body>
 </html>
+
+

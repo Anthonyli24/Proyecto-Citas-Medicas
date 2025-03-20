@@ -10,7 +10,7 @@ body {
 }
 
 .header {
-    background-color: red;
+    background-color: #e0f2fb;
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -28,7 +28,7 @@ body {
 }
 
 .logo h3 {
-    color: white;
+    color: #119dac;
     margin-left: 10px;
 }
 
@@ -70,31 +70,56 @@ body {
     background-color: rgba(255, 255, 255, 0.85);
     padding: 50px;
     border-radius: 12px;
-    width: 450px;
+    width: 350px;
     text-align: center;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
 }
 
+.register-box h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
 .register-box img {
-    width: 90px;
+    width: 80px;
     margin-bottom: 15px;
 }
 
 .input-group {
-    margin: 20px 0;
-}
-
-input {
-    width: 95%;
-    padding: 12px;
-    margin: 8px 0;
-    font-size: 18px;
-    border-radius: 5px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
     border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    background: white;
 }
 
-.login-btn {
-    background-color: #119dac;
+.input-group input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input-group i {
+    margin-left: 10px;
+    color: gray;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    font-size: 16px;
+    margin-bottom: 10px
+}
+
+.registrarse-btn {
+    background-color: #dc3545;
     color: white;
     padding: 12px;
     border-radius: 8px;
@@ -105,28 +130,8 @@ input {
     cursor: pointer;
 }
 
-.login-btn:hover {
-    background-color: #0d7f8b;
-}
-
-.register {
-    margin-top: 20px;
-}
-
-.register-btn {
-    background-color: #f1f1f1;
-    color: #ac1116;
-    padding: 12px;
-    border: 1px solid #ac1116;
-    border-radius: 5px;
-    width: 80%;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.register-btn:hover {
-    background-color: #ac1116;
-    color: white;
+.registrarse-btn:hover {
+    background-color: #c82333;
 }
 
 .footer {
@@ -143,3 +148,4 @@ input {
     margin-left: 5px;
     justify-content: right;
 }
+

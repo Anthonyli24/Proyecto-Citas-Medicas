@@ -15,19 +15,24 @@ public class controller {
         return "/presentation/About/about";
     }
 
+    @GetMapping("/registro")
+    public String Form(Model model) {
+        return "/presentation/Registro/registro";
+    }
+
     @GetMapping("/login")
     public String Login(Model model) {
         return "/presentation/Login/login";
     }
 
-    @GetMapping("/register")
-    public String Registro(Model model) {
-        return "/presentation/Register/register";
-    }
-
     @GetMapping("/css")
     public String CSS(Model model) {
         return "/static/css";
+    }
+
+    @GetMapping("/notAuthorized")
+    public String notAuthorized(Model model) {
+        return "redirect:/presentation/Login/notAuthorized";
     }
 
     @GetMapping("/")
