@@ -93,20 +93,23 @@ input {
     border: 1px solid #ccc;
 }
 
-.login-btn {
+.button{
     background-color: #119dac;
-    color: white;
     padding: 12px;
     border-radius: 8px;
     width: 80%;
-    margin-top: 15px;
     font-size: 18px;
     border: none;
     cursor: pointer;
 }
 
-.login-btn:hover {
+.button:hover{
     background-color: #0d7f8b;
+}
+
+.login-btn {
+    margin-top: 15px;
+    text-align: center;
 }
 
 .register {
@@ -127,6 +130,12 @@ input {
 .register-btn:hover {
     background-color: #ac1116;
     color: white;
+}
+
+.error{
+    text-align: center;
+    color: red;
+
 }
 
 .footer {
