@@ -23,26 +23,33 @@
 </div>
 
 <div class="register-container">
-    <form action="/register" method="post">
-    <div class="register-box">
-        <h2>Registro</h2>
-        <img src="/images/user.png" alt="User Icon">
-        <div class="input-group">
-            <input type="text" placeholder="User id">
+    <form action="/register/guardar" method="post">
+        <div class="register-box">
+            <h2>Registro</h2>
+            <img src="/images/user.png" alt="User Icon">
+            <div class="input-group">
+                <input type="text" name="id" placeholder="User id">
+            </div>
+            <div class="input-group">
+                <input type="password" name="clave" placeholder="User password">
+            </div>
+            <div class="input-group">
+                <input type="text" name="nombre" placeholder="Name">
+            </div>
+            <div class="input-group">
+                <label for="frecuencia">Rol:</label>
+                <select id="frecuencia" name="rol">
+                    <!-- Iterar sobre la lista de roles -->
+                    <th:block th:each="rol : ${roles}">
+                        <option th:value="${rol.id}" th:text="${rol.nombre}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <button type="submit" class="registrarse-btn">Registrarse</button>
         </div>
-        <div class="input-group">
-            <input type="password" placeholder="User password">
-        </div>
-        <div class="input-group">
-            <input type="name" placeholder="Name">
-        </div>
-        <select id="frecuencia">
-            <option value="1">Paciente</option>
-            <option value="2">Doctor</option>
-        </select>
-        <button class="registrarse-btn">Registrarse</button>
-    </div>
     </form>
+
+
 </div>
 
 <div class="footer">

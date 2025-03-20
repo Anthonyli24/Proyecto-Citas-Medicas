@@ -1,9 +1,18 @@
 package com.example.proyecto_sistema_citas.presentation.Login;
 
 import com.example.proyecto_sistema_citas.logic.Service;
+import com.example.proyecto_sistema_citas.logic.Usuario;
+import com.example.proyecto_sistema_citas.logic.Rol;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @org.springframework.stereotype.Controller("Login")
 public class controller {
@@ -17,6 +26,14 @@ public class controller {
 
     @GetMapping("/registro")
     public String Form(Model model) {
+
+        Iterable<Rol> roles = service.rolFindAll();
+
+        // Agregar un nuevo objeto Usuario al modelo para el formulario
+        model.addAttribute("usuario", new Usuario());
+
+        // Pasar la lista de roles al modelo
+        model.addAttribute("roles", roles);
         return "/presentation/Registro/registro";
     }
 
@@ -39,4 +56,22 @@ public class controller {
     public String redirigir() {
         return "redirect:/home";
     }
+
+    @PostMapping("/register/guardar")
+    public String RegistroUsuario(@ModelAttribute Usuario usuario, Model model) {
+        System.out.println(usuario + usuario.getRol().getNombre());
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encriptada = passwordEncoder.encode(usuario.getClave());
+        usuario.setClave(encriptada);
+        service.RegistrarUsuario(usuario);
+
+        return "/presentation/Registro/RegistroExitoso";
+    }
+
+
+    @GetMapping("/RegistroExitoso")
+    public String RegistroExitoso(Model model) {
+        return "redirect: /home";
+    }
+
 }
