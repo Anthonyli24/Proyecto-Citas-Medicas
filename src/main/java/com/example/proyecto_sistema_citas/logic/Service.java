@@ -42,6 +42,11 @@ public class Service {
         return usuarioRepository.findById(id).get() ;
     }
 
+    public boolean existeUsuarioPorId(String id){
+        return usuarioRepository.existsById(id);
+    }
+
+
 
 
 }

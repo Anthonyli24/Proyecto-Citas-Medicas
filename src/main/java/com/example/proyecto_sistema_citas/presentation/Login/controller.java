@@ -4,7 +4,9 @@ import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
 import com.example.proyecto_sistema_citas.logic.Usuario;
 import com.example.proyecto_sistema_citas.logic.Rol;
+import com.example.proyecto_sistema_citas.presentation.Security.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -42,6 +44,11 @@ public class controller {
     public String Login(Model model) {
         return "/presentation/Login/login";
     }
+    
+    @PostMapping("/login")
+    public String acceder(@AuthenticationPrincipal UserDetailsImp userDetails){
+        return "redirect:/home";
+    }
 
     @GetMapping("/css")
     public String CSS(Model model) {
@@ -62,7 +69,12 @@ public class controller {
     public String RegistroUsuario(@ModelAttribute Usuario usuario, Model model) {
         System.out.println(usuario + usuario.getRol().getNombre());
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (service.existeUsuarioPorId(usuario.getId())) {
+            model.addAttribute("error", "El usuario con este ID ya está registrado.");
+            return "/presentation/Login/login"; // Página del formulario con el error
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encriptada = passwordEncoder.encode(usuario.getClave());
         usuario.setClave(encriptada);
 
@@ -132,4 +144,9 @@ public class controller {
     public String RegistroExitoso(Model model) {
         return "redirect: /";
     }
+
+
+
+
+
 }
