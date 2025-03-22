@@ -45,10 +45,10 @@ public class controller {
         return "/presentation/Login/login";
     }
     
-    @PostMapping("/login")
-    public String acceder(@AuthenticationPrincipal UserDetailsImp userDetails){
-        return "redirect:/home";
-    }
+//    @PostMapping("/login")
+//    public String acceder(@AuthenticationPrincipal UserDetailsImp userDetails){
+//        return "redirect:/home";
+//    }
 
     @GetMapping("/css")
     public String CSS(Model model) {
