@@ -6,6 +6,8 @@ import com.example.proyecto_sistema_citas.data.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 
 @org.springframework.stereotype.Service("service")
 public class Service {
@@ -45,6 +47,21 @@ public class Service {
     public boolean existeUsuarioPorId(String id){
         return usuarioRepository.existsById(id);
     }
+
+
+
+    public List<Medico> FiltradoMedicos(String especialidad, String localidad) {
+        if ((especialidad == null || especialidad.isEmpty()) && (localidad == null || localidad.isEmpty())) {
+            return (List<Medico>) medicoRepository.findAll(); // Retorna todos si no hay filtros
+        }
+
+        if (especialidad == null) especialidad = "";
+        if (localidad == null) localidad = "";
+
+        return medicoRepository.findByEspecialidadContainingIgnoreCaseAndLocalidadContainingIgnoreCase(especialidad, localidad);
+    }
+
+
 
 
 

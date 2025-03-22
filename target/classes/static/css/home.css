@@ -19,6 +19,38 @@ html, body {
     margin-bottom: 50px;
 }
 
+.search-bar{
+    width: 85%;
+    max-width: 1400px;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 200px; /* Ajuste del tamaño de los campos de texto */
+}
+
+/* Estilo para el botón de búsqueda */
+.search-bar button {
+    padding: 12px 20px;
+    background-color: #007bff; /* Color azul para el botón */
+    color: white;
+    border: none;
+    border-radius: 25px; /* Botón ovalado */
+    cursor: pointer;
+    font-size: 16px; /* Tamaño de la fuente un poco mayor */
+    transition: background-color 0.3s ease; /* Efecto al pasar el ratón */
+}
+
 .logo {
     display: flex;
     align-items: center;

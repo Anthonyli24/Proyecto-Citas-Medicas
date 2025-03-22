@@ -21,21 +21,32 @@
     </div>
 </div>
 
+<div class="search-bar">
+    <form action="/filtrado/medicos" method="POST">
+        <label for="especialidad">Speciality</label>
+        <input type="text" id="especialidad" name="especialidad" placeholder="Speciality">
+
+        <label for="localidad">City</label>
+        <input type="text" id="localidad" name="localidad" placeholder="City">
+
+        <button type="submit">Search</button>
+    </form>
+</div>
+
 <table class="appointment-table">
-    <tr th:each="usuario : ${usuarios}" th:if="${usuario.getRol().getId() == 2}" class="appointment-row">
+    <tr th:each="medico : ${medicos}" class="appointment-row">
         <td class="doctor-info">
-            <img th:src="@{/images/{img}(img=${usuario.getMedico().getImagen()})}" alt="Usuario">
+            <img th:src="@{/images/{img}(img=${medico.imagen})}" alt="Medico">
             <div class="doctor-details">
-                <strong th:text="${usuario.getNombre()}"></strong>
-                <span class="price" th:text="${usuario.getMedico().getCosto()}"></span>
-                <p th:text="${usuario.getMedico().getEspecialidad()}"></p>
-                <p class="hospital" th:text="${usuario.getMedico().getLocalidad()}"></p>
+                <strong th:text="${medico.usuario.nombre}"></strong> <!-- Cambio aquí -->
+                <span class="price" th:text="${medico.costo}"></span>
+                <p th:text="${medico.especialidad}"></p>
+                <p class="hospital" th:text="${medico.localidad}"></p>
             </div>
         </td>
-
         <td class="availability">
             <div class="dates-times-container">
-                <div th:each="fecha : ${usuario.getMedico().getFechas()}" class="date-container">
+                <div th:each="fecha : ${medico.getFechas()}" class="date-container">
                     <div class="date" th:text="${fecha.key}"></div>
                     <div class="times">
                         <span th:each="hora : ${fecha.value}" th:text="${hora}"></span>
@@ -45,6 +56,7 @@
         </td>
     </tr>
 </table>
+
 
 
 <div class="footer">
