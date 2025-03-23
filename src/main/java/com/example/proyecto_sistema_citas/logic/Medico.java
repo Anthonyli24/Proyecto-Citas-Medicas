@@ -3,6 +3,7 @@ package com.example.proyecto_sistema_citas.logic;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalTime;
@@ -44,12 +45,14 @@ public class Medico {
     @Column(name = "frecuencia_citas", nullable = false)
     private Integer frecuenciaCitas;
 
+    @NotNull
+    @ColumnDefault("'Pendiente'")
+    @Lob
+    @Column(name = "status", nullable = false)
+    private String status;
+
     @OneToMany(mappedBy = "medico")
     private Set<Horario> horarios = new LinkedHashSet<>();
-
-    @Size(max = 255)
-    @Column(name = "imagen", length = 255)
-    private String imagen;
 
     public String getId() {
         return id;
@@ -107,9 +110,13 @@ public class Medico {
         this.horarios = horarios;
     }
 
-    public String getImagen() {return imagen;}
+    public String getStatus() {
+        return status;
+    }
 
-    public void setImagen(String imagen) {this.imagen = imagen;}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Map<String, List<String>> getFechas() {
         Map<String, List<String>> disponibilidad = new LinkedHashMap<>();

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login - Sistema de Citas Médicas</title>
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
 
@@ -23,24 +24,27 @@
 
 <div class="login-container">
     <form action="/login" method="post">
-    <div class="login-box">
-        <h2>Login</h2>
-        <img src="/images/user.png" alt="User Icon">
+        <div class="login-box">
+            <h2>Login</h2>
+            <img src="/images/user.png" alt="User Icon">
 
-        <div class="input-group">
-            <input type="text" id="username" name="username" placeholder="Usuario">
-        </div>
-        <div class="input-group">
-            <input type="password" id="password" name="password" placeholder="Clave" required/>
-        </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" placeholder="Usuario">
+            </div>
 
-        <div class="login-btn"><input type="submit" name="login" value="Login" class="button"></div>
+            <div class="input-group">
+                <i class="fas fa-key"></i>
+                <input type="password" id="password" name="password" placeholder="Clave" required/>
+            </div>
 
-        <div class="register">
-            <p>Don't have an account?</p>
-            <a href="/registro" class="register-btn">Register here</a>
+            <div class="login-btn"><input type="submit" name="login" value="Login" class="button"></div>
+
+            <div class="register">
+                <p>Don't have an account?</p>
+                <a href="/registro" class="register-btn">Register here</a>
+            </div>
         </div>
-    </div>
     </form>
 </div>
 <div th:if="${param.error != null}" class="error">
@@ -59,5 +63,3 @@
 
 </body>
 </html>
-
-

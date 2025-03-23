@@ -30,6 +30,10 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario") // Relación con Médico
     private Medico medico;
 
+    @Size(max = 255)
+    @Column(name = "imagen", length = 255)
+    private String imagen;
+
     public Medico getMedico() {
         return medico;
     }
@@ -38,7 +42,7 @@ public class Usuario {
         this.medico = medico;
     }
 
-    @OneToOne(mappedBy = "usuario") // Esto hace referencia al campo `usuario` en la clase Administrador
+    @OneToOne(mappedBy = "usuario")
     private Administrador administrador;
 
     public String getId() {
@@ -80,6 +84,10 @@ public class Usuario {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
+
+    public String getImagen() {return imagen;}
+
+    public void setImagen(String imagen) {this.imagen = imagen;}
 
     @Override
     public String toString() {

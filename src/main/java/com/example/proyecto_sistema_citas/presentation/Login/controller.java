@@ -144,9 +144,4 @@ public class controller {
     public String RegistroExitoso(Model model) {
         return "redirect: /";
     }
-
-
-
-
-
 }

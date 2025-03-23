@@ -44,6 +44,4 @@ public String filtrarMedicos(@RequestParam(required = false) String especialidad
     model.addAttribute("medicos", medicosFiltrados); // Asegúrate de usar "medicos"
     return "/presentation/home/home";
 }
-
-
 }

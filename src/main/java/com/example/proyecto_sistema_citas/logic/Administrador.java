@@ -1,6 +1,5 @@
 package com.example.proyecto_sistema_citas.logic;
 
-import com.example.proyecto_sistema_citas.logic.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -14,7 +13,7 @@ public class Administrador {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id", nullable = false) // Esta columna debe ser la clave primaria compartida
+    @JoinColumn(name = "id", nullable = false)
     private Usuario usuario;
 
     public String getId() {
