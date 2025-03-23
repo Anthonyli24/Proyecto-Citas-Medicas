@@ -16,8 +16,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(customizer->customizer
                 .requestMatchers("/","/listado/medicos","/about","/home","/login","/registro","/registroMedico","/register/RegistroExitoso","/register/guardar","/register/guardar/medico/{id}","/login/acceder","/css/**","/images/**").permitAll()
                 .requestMatchers("/registro/medicos/guardar").hasAuthority("3").anyRequest().authenticated())
-                .formLogin(customizer->customizer.loginPage("/login").permitAll())
-                .logout(customizer->customizer.permitAll().logoutSuccessUrl("/"))
+                .formLogin(customizer->customizer.loginPage("/login").defaultSuccessUrl("/home", true).permitAll())
+                .logout(customizer->customizer.permitAll().logoutSuccessUrl("/Login").invalidateHttpSession(true) // Invalida la sesión
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID"))
                 .exceptionHandling(customizer->customizer.accessDeniedPage("/notAuthorized"))
                 .csrf(customizer->customizer.disable());
         return http.build();

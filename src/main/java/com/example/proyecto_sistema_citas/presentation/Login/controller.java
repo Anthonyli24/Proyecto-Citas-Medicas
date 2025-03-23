@@ -18,7 +18,8 @@ public class controller {
     private Service service;
 
     @GetMapping("/about")
-    public String About(Model model) {
+    public String About(Model modeL) {
+
         return "/presentation/About/about";
     }
 

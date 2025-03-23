@@ -14,9 +14,8 @@ public class Controller {
     private Service service;
 
     @GetMapping("/home")
-    public String ListarUsuarios(Model model, @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
-        System.out.println(usuario);
-        model.addAttribute("usuarios", service.usuarioFindAll());
+    public String ListarUsuarios(Model model) {
+        model.addAttribute("medicos", service.medicoFindAll());
         return "/presentation/Home/home";
     }
 
