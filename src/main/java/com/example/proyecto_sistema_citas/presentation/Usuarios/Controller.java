@@ -18,5 +18,6 @@ public class Controller {
         model.addAttribute("medicos", service.medicoFindAll());
         return "/presentation/Home/home";
     }
+    
 
 }

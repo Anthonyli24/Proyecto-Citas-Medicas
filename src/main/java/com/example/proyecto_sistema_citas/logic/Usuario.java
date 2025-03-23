@@ -85,10 +85,6 @@ public class Usuario {
         this.administrador = administrador;
     }
 
-    public String getImagen() {return imagen;}
-
-    public void setImagen(String imagen) {this.imagen = imagen;}
-
     @Override
     public String toString() {
         return "Usuario{" +

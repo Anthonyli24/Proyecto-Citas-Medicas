@@ -118,6 +118,13 @@ public class Medico {
         this.status = status;
     }
 
+    @PrePersist
+    public void setDefaultStatus() {
+        if (this.status == null) {
+            this.status = "Pendiente";
+        }
+    }
+
     public Map<String, List<String>> getFechas() {
         Map<String, List<String>> disponibilidad = new LinkedHashMap<>();
 
