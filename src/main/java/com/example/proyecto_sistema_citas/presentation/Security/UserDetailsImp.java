@@ -55,4 +55,8 @@ public class UserDetailsImp implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

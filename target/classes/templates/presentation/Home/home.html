@@ -36,9 +36,9 @@
 <table class="appointment-table">
     <tr th:each="medico : ${medicos}" class="appointment-row">
         <td class="doctor-info">
-            <img th:src="@{/images/{img}(img=${medico.usuario.imagen})}" alt="Medico">
+            <img th:src="@{/images/{img}(img=${medico.getUsuario().imagen})}" alt="Medico">
             <div class="doctor-details">
-                <strong th:text="${medico.usuario.nombre}"></strong>
+                <strong th:text="${medico.getUsuario().nombre}"></strong>
                 <span class="price" th:text="${medico.costo}"></span>
                 <p th:text="${medico.especialidad}"></p>
                 <p class="hospital" th:text="${medico.localidad}"></p>
