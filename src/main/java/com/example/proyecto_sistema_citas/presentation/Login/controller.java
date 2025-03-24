@@ -82,6 +82,20 @@ public class controller {
         return "redirect:/presentation/Login/notAuthorized";
     }
 
+    @PostMapping("/medico/aceptar")
+    public String aceptarMedico(@RequestParam("id") String id) {
+        service.aceptarMedico(id);
+        return "redirect:/Gestion";
+    }
+
+    @GetMapping("/Gestion")
+    public String Gestion(Model model) {
+        List<Medico> medicos = service.FiltradoMedicosPorStatus("Pendiente");
+
+        model.addAttribute("medicos", medicos);
+        return "/presentation/Home/gestion";
+    }
+
     @GetMapping("/MiPerfil")
     public String miPerfil(Model model, Principal principal) {
         String username = principal.getName();
@@ -144,6 +158,7 @@ public class controller {
         service.eliminarHorario(id, dia);
         return "redirect:/MiPerfil?id=" + id;
     }
+
 
     @GetMapping("/")
     public String redirigir() {

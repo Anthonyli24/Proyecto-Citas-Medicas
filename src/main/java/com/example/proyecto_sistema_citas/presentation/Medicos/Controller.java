@@ -39,9 +39,8 @@ public String filtrarMedicos(@RequestParam(required = false) String especialidad
                              @RequestParam(required = false) String localidad,
                              Model model) {
     List<Medico> medicosFiltrados = service.FiltradoMedicos(especialidad, localidad);
-    System.out.println("Médicos encontrados: " + medicosFiltrados.size());
 
-    model.addAttribute("medicos", medicosFiltrados); // Asegúrate de usar "medicos"
+    model.addAttribute("medicos", medicosFiltrados);
     return "/presentation/home/home";
 }
 }

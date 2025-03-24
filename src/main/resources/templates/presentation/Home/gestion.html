@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Sistema de Citas Médicas</title>
+  <link rel="stylesheet" href="/css/gestion.css">
+</head>
+<body>
+<div class="header">
+  <div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+  </div>
+  <div class="contact">
+    📞 +506 5467 0937
+  </div>
+  <div class="nav-links">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/home">Search</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#"><span sec:authentication="name"></span></a>
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+  </div>
+</div>
+<h2>Médicos Pendientes de Aprobación</h2>
+<table class="appointment-table">
+  <tr>
+    <th>Foto</th>
+    <th>Nombre</th>
+    <th>Especialidad</th>
+    <th>Localidad</th>
+    <th>Costo</th>
+    <th>Acción</th>
+  </tr>
+  <tr th:each="medico : ${medicos}" th:if="${medico.status != 'PENDIENTE'}" class="appointment-row">
+    <td>
+      <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture rounded-circle">
+    </td>
+    <td th:text="${medico.usuario.nombre}"></td>
+    <td th:text="${medico.especialidad}"></td>
+    <td th:text="${medico.localidad}"></td>
+    <td th:text="${medico.costo}"></td>
+    <td>
+      <form th:action="@{/medico/aceptar}" method="post">
+        <input type="hidden" name="id" th:value="${medico.id}">
+        <button type="submit" class="btn-accept">Aceptar</button>
+      </form>
+    </td>
+  </tr>
+</table>
+<div class="footer">
+  <div>Total Soft Inc.</div>
+  <div class="social-icons">
+    <img src="/images/twitter.png" alt="Twitter">
+    <img src="/images/facebook.png" alt="Facebook">
+    <img src="/images/instagram.png" alt="Instagram"/>
+  </div>
+  <div>©2019 Tsf, Inc.</div>
+</div>
+</body>
+</html>

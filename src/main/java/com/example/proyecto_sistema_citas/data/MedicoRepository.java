@@ -13,5 +13,6 @@ public interface MedicoRepository extends CrudRepository<Medico, String> {
     List<Medico> findByEspecialidadContainingIgnoreCaseAndLocalidadContainingIgnoreCase(
             String especialidad, String localidad);
 
+    List<Medico> findByStatusContainingIgnoreCase(String status);
 }
 

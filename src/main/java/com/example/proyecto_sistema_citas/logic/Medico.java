@@ -50,9 +50,9 @@ public class Medico {
 
     @NotNull
     @ColumnDefault("'Pendiente'")
-    @Lob
     @Column(name = "status", nullable = false)
     private String status;
+
 
     @OneToMany(mappedBy = "medico")
     private Set<Horario> horarios = new LinkedHashSet<>();
@@ -167,7 +167,7 @@ public class Medico {
         LocalTime fin = horario.getHoraFin();
         int frecuencia = this.frecuenciaCitas;
 
-        while (!inicio.isAfter(fin)) {
+        while (inicio.isBefore(fin)) {
             horariosGenerados.add(inicio.toString());
             inicio = inicio.plusMinutes(frecuencia);
         }

@@ -69,6 +69,14 @@ public class Service {
         return medicoRepository.findByEspecialidadContainingIgnoreCaseAndLocalidadContainingIgnoreCase(especialidad, localidad);
     }
 
+    public List<Medico> FiltradoMedicosPorStatus(String status) {
+        if (status == null || status.isEmpty()) {
+            return (List<Medico>) medicoRepository.findAll();
+        }
+        return medicoRepository.findByStatusContainingIgnoreCase(status);
+    }
+
+
     public void actualizarMedico(Medico medico) {
         Medico medicoExistente = medicoRepository.findById(medico.getId())
                 .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + medico.getId()));
@@ -78,6 +86,15 @@ public class Service {
         medicoExistente.setLocalidad(medico.getLocalidad());
 
         medicoRepository.save(medicoExistente);
+    }
+
+    @Transactional
+    public void aceptarMedico(String id) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + id));
+
+        medico.setStatus("Aprobado");
+        medicoRepository.save(medico);
     }
 
     public List<Horario> obtenerHorariosPorMedico(String medicoId) {
