@@ -48,11 +48,13 @@ public class Service {
         return usuarioRepository.existsById(id);
     }
 
-
+    public Medico obtenerMedicoPorId(String id) {
+        return medicoRepository.findById(id).orElse(null);
+    }
 
     public List<Medico> FiltradoMedicos(String especialidad, String localidad) {
         if ((especialidad == null || especialidad.isEmpty()) && (localidad == null || localidad.isEmpty())) {
-            return (List<Medico>) medicoRepository.findAll(); // Retorna todos si no hay filtros
+            return (List<Medico>) medicoRepository.findAll();
         }
 
         if (especialidad == null) especialidad = "";

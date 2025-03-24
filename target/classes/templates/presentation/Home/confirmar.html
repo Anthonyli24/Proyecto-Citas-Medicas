@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmar Cita - Sistema de Citas Médicas</title>
+  <link rel="stylesheet" href="/css/confirmar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+  </div>
+  <div class="contact">
+    📞 +506 5467 0937
+  </div>
+  <div class="nav-links">
+    <th:block sec:authorize="isAnonymous()">
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated()">
+      <th:block th:with="rol=${#authentication.principal.getRol}">
+        <th:block th:if="${rol == 1}">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/history">Historial</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/presentation/perfil/show"><span sec:authentication="name"></span></a>
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+        </th:block>
+        <th:block th:if="${rol == 2}">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/Appointments">Citas</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/presentation/perfil/show"><span sec:authentication="name"></span></a>
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+        </th:block>
+      </th:block>
+    </th:block>
+  </div>
+</div>
+
+<div class="appointment-container">
+  <div class="appointment-card">
+    <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Doctor" class="doctor-photo">
+    <p> <i class="fas fa-id-card"></i> <span th:text="${medico.getUsuario().nombre}"></span></p>
+
+    <p><i class="fa fa-calendar"></i> <span th:text="${fecha}"></span> - <span th:text="${hora}"></span></p>
+    <p><i class="fa fa-map-marker"></i> <span th:text="${medico.localidad}"></span></p>
+
+    <div class="actions">
+<a th:href="@{/appointment/confirm(did=${medico.id}, ddt=${fecha} + 'T' + ${hora})}">-->
+        <button class="confirm-btn">Confirm</button>
+      </a>
+      <a href="/home">
+        <button class="cancel-btn">Cancel</button>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div>Total Soft Inc.</div>
+  <div class="social-icons">
+    <img src="/images/twitter.png" alt="Twitter">
+    <img src="/images/facebook.png" alt="Facebook">
+    <img src="/images/instagram.png" alt="Instagram"/>
+  </div>
+  <div>©2019 Tsf, Inc.</div>
+</div>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Appointments</title>
+    <title>Home - Sistema de Citas Médicas</title>
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -23,9 +23,14 @@
         </th:block>
 
         <th:block sec:authorize="isAuthenticated()">
-            <ul class="dropdown">
+        <th:block th:with="rol=${#authentication.principal.getRol}">
+            <th:block th:if="${rol == 1}">
+                <ul class="dropdown">
                 <li class="dropdown-item">
                     <a href="/about">About</a>
+                </li>
+                <li class="dropdown-item">
+                    <a href="/history">Historial</a>
                 </li>
                 <li class="dropdown-item">
                     <a href="#">
@@ -37,6 +42,27 @@
                     </ul>
                 </li>
             </ul>
+        </th:block>
+            <th:block th:if="${rol == 2}">
+                <ul class="dropdown">
+                    <li class="dropdown-item">
+                        <a href="/about">About</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/Appointments">Citas</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="#">
+                            <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+                        </a>
+                        <ul class="dropdown-submenu">
+                            <a href="/presentation/perfil/show"><span sec:authentication="name"></span></a>
+                            <a href="/logout">Logout</a>
+                        </ul>
+                    </li>
+                </ul>
+            </th:block>
+        </th:block>
         </th:block>
     </div>
 </div>
@@ -60,28 +86,37 @@
 <table class="appointment-table">
     <tr th:each="medico : ${medicos}" class="appointment-row">
         <td class="doctor-info">
-            <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class = "picture rounded-circle">
+            <div class="button-container">
+                <button class="prevBtn" onclick="changeDate(this, -1)">Prev</button>
+            </div>
+
+            <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture rounded-circle">
             <div class="doctor-details">
-                <strong th:text="${medico.getUsuario().nombre}"></strong>
+                <strong th:text="${medico.usuario.nombre}"></strong>
                 <span class="price" th:text="${medico.costo}"></span>
                 <p th:text="${medico.especialidad}"></p>
                 <p class="hospital" th:text="${medico.localidad}"></p>
             </div>
         </td>
+
         <td class="availability">
             <div class="dates-times-container">
-                <div th:each="fecha : ${medico.getFechas()}" class="date-container">
-                    <div class="date" th:text="${fecha.key}"></div>
+                <div th:each="fecha : ${medico.fechas}" class="date-container">
+                    <div class="date" th:text="${#temporals.format(fecha.key, 'dd/MM/yyyy')}"></div>
                     <div class="times">
-                        <span th:each="hora : ${fecha.value}" th:text="${hora}"></span>
+                        <a th:each="hora : ${fecha.value}"
+                           th:href="@{/book(did=${medico.id}, ddt=${fecha.key + 'T' + hora})}">
+                            <button th:text="${hora}"></button>
+                        </a>
                     </div>
                 </div>
+            </div>
+            <div class="button-container">
+                <button class="nextBtn" onclick="changeDate(this, 1)">Next</button>
             </div>
         </td>
     </tr>
 </table>
-
-
 
 <div class="footer">
     <div>Total Soft Inc.</div>

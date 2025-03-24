@@ -36,6 +36,10 @@ public class UserDetailsImp implements UserDetails {
         return usuario.getId();
     }
 
+    public int getRol() {
+        System.out.println(usuario.getRol().getId());
+        return usuario.getRol().getId();}
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -59,4 +63,6 @@ public class UserDetailsImp implements UserDetails {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+
 }

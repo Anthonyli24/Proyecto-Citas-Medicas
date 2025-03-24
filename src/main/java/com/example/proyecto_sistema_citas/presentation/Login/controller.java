@@ -1,5 +1,6 @@
 package com.example.proyecto_sistema_citas.presentation.Login;
 
+import com.example.proyecto_sistema_citas.data.MedicoRepository;
 import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
 import com.example.proyecto_sistema_citas.logic.Usuario;
@@ -15,11 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @org.springframework.stereotype.Controller("Login")
 public class controller {
@@ -182,6 +188,39 @@ public class controller {
         return "/presentation/Registro/registroMedico"; // Formulario para registrar el médico
     }
 
+    @GetMapping("/confirmar")
+    public String confirmar(@RequestParam("did") String doctorId,
+                            @RequestParam("ddt") String dateTime,
+                            Model model) {
+        Medico medico = service.obtenerMedicoPorId(doctorId);
+
+        if (medico != null) {
+            model.addAttribute("medico", medico);
+        } else {
+            model.addAttribute("error", "Médico no encontrado");
+        }
+
+        // Separar fecha y hora del parámetro `ddt`
+        String[] dateTimeParts = dateTime.split("T");
+        if (dateTimeParts.length == 2) {
+            model.addAttribute("fecha", dateTimeParts[0]);
+            model.addAttribute("hora", dateTimeParts[1]);
+        } else {
+            model.addAttribute("fecha", "Fecha no válida");
+            model.addAttribute("hora", "Hora no válida");
+        }
+
+        return "presentation/Home/confirmar";
+    }
+
+    @GetMapping("/book")
+    public String redirigirReserva(@RequestParam("did") String doctorId,
+                                   @RequestParam("ddt") String dateTime) {
+        String encodedDoctorId = URLEncoder.encode(doctorId, StandardCharsets.UTF_8);
+        String encodedDateTime = URLEncoder.encode(dateTime, StandardCharsets.UTF_8);
+
+        return "redirect:/confirmar?did=" + encodedDoctorId + "&ddt=" + encodedDateTime;
+    }
 
 
     @GetMapping("/RegistroExitoso")

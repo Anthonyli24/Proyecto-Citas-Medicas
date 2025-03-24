@@ -10,5 +10,6 @@ import java.util.List;
 public interface MedicoRepository extends CrudRepository<Medico, String> {
     List<Medico> findByEspecialidadContainingIgnoreCaseAndLocalidadContainingIgnoreCase(
             String especialidad, String localidad);
+
 }
 

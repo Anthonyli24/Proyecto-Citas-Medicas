@@ -134,17 +134,20 @@ input {
 }
 
 .register {
-    margin-top: 20px;
+    display: flex;
+    gap: 10px;
 }
 
 .register-btn {
     background-color: #f1f1f1;
     color: #ac1116;
-    padding: 12px;
+    padding: 10px;
+    width: 30%;
+    height: 10%;
     border: 1px solid #ac1116;
     border-radius: 5px;
-    width: 80%;
     font-size: 16px;
+    margin-top: 10px;
     cursor: pointer;
 }
 
@@ -156,7 +159,6 @@ input {
 .error{
     text-align: center;
     color: red;
-
 }
 
 .footer {

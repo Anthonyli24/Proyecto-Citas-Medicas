@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 import java.math.BigDecimal;
@@ -125,15 +128,37 @@ public class Medico {
         }
     }
 
-    public Map<String, List<String>> getFechas() {
-        Map<String, List<String>> disponibilidad = new LinkedHashMap<>();
+    public Map<LocalDate, List<String>> getFechas() {
+        Map<LocalDate, List<String>> disponibilidad = new TreeMap<>();
+        LocalDate fechaActual = LocalDate.now();
 
         for (Horario horario : horarios) {
+            DayOfWeek diaSemana = convertirDiaSemana(horario.getDia());
+            LocalDate proximaFecha = obtenerProximaFecha(fechaActual, diaSemana);
+
             List<String> horariosGenerados = generarHorarios(horario);
-            disponibilidad.put(horario.getDia(), horariosGenerados);
+            disponibilidad.put(proximaFecha, horariosGenerados);
         }
 
         return disponibilidad;
+    }
+
+    private DayOfWeek convertirDiaSemana(String dia) {
+        return switch (dia.toLowerCase()) {
+            case "lunes" -> DayOfWeek.MONDAY;
+            case "martes" -> DayOfWeek.TUESDAY;
+            case "miércoles" -> DayOfWeek.WEDNESDAY;
+            case "jueves" -> DayOfWeek.THURSDAY;
+            case "viernes" -> DayOfWeek.FRIDAY;
+            case "sábado" -> DayOfWeek.SATURDAY;
+            case "domingo" -> DayOfWeek.SUNDAY;
+            default -> throw new IllegalArgumentException("Día inválido: " + dia);
+        };
+    }
+
+    private LocalDate obtenerProximaFecha(LocalDate desde, DayOfWeek diaSemana) {
+        int diasParaSumar = (diaSemana.getValue() - desde.getDayOfWeek().getValue() + 7) % 7;
+        return desde.plusDays(diasParaSumar == 0 ? 7 : diasParaSumar);
     }
 
     private List<String> generarHorarios(Horario horario) {
