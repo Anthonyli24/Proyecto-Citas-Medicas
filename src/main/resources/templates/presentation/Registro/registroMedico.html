@@ -30,11 +30,11 @@
       <img src="/images/user.png" alt="User Icon">
       <div class="input-group">
         <i class="fas fa-heartbeat"></i>
-        <input type="text" name="especialidad" placeholder="Especialidad" required>
+        <input type="text" name="especialidad" placeholder="Especialidad" required pattern="[A-Za-z\s]+" title="No Numbers allowed">
       </div>
       <div class="input-group">
         <i class="fas fa-coins"></i>
-        <input type="text" name="costo" placeholder="Costo" required>
+        <input type="number" name="costo" placeholder="Costo" required min="1">
       </div>
       <div class="input-group">
         <i class="fas fa-map"></i>
@@ -42,7 +42,7 @@
       </div>
       <div class="input-group">
         <i class="fas fa-clock"></i>
-        <input type="text" name="frecuencia" placeholder="Frecuencia de citas en minutos" required>
+        <input type="number" name="frecuencia" placeholder="Frecuencia de citas en minutos" required min="1">
       </div>
       <button type="submit" class="registrarse-btn">Registrarse</button>
     </div>
