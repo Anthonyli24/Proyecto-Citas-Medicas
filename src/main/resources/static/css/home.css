@@ -238,7 +238,7 @@ html, body {
     display: flex;
     align-items: center;
     flex: 1;
-    gap: 15px;
+    gap: 5px;
 }
 
 .doctor-info img {
@@ -255,7 +255,7 @@ html, body {
 }
 
 .hospital {
-    font-size: 12px;
+    font-size: 14px;
     color: gray;
 }
 

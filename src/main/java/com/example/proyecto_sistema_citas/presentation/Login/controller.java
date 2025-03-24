@@ -1,10 +1,7 @@
 package com.example.proyecto_sistema_citas.presentation.Login;
 
 import com.example.proyecto_sistema_citas.data.MedicoRepository;
-import com.example.proyecto_sistema_citas.logic.Medico;
-import com.example.proyecto_sistema_citas.logic.Service;
-import com.example.proyecto_sistema_citas.logic.Usuario;
-import com.example.proyecto_sistema_citas.logic.Rol;
+import com.example.proyecto_sistema_citas.logic.*;
 import com.example.proyecto_sistema_citas.presentation.Security.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,13 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -71,9 +72,77 @@ public class controller {
         return "/static/css";
     }
 
+    @GetMapping("/Historial")
+    public String Historial(Model model) {
+        return "/presentation/Cita/historial";
+    }
+
     @GetMapping("/notAuthorized")
     public String notAuthorized(Model model) {
         return "redirect:/presentation/Login/notAuthorized";
+    }
+
+    @GetMapping("/MiPerfil")
+    public String miPerfil(Model model, Principal principal) {
+        String username = principal.getName();
+        Usuario usuario = service.findUsuarioById(username);
+        List<Horario> horarios = service.obtenerHorariosPorMedico(username);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("horarios", horarios);
+        model.addAttribute("usuario", usuario);
+        return "presentation/Home/MiPerfil";
+    }
+
+    @GetMapping("/agregar")
+    public String mostrarFormulario() {
+        return "horario/agregar";
+    }
+
+    @PostMapping("/medico/actualizar")
+    public String actualizarMedico(@RequestParam("id") String medicoId,
+                                   @RequestParam("costo") Double costo,
+                                   @RequestParam("localidad") String localidad,
+                                   @RequestParam("frecuencia")Integer frecuencia)  {
+        Medico medico = service.obtenerMedicoPorId(medicoId);
+
+        medico.setCosto(costo);
+        medico.setLocalidad(localidad);
+        medico.setFrecuenciaCitas(frecuencia);
+
+        service.actualizarMedico(medico);
+
+        return "redirect:/MiPerfil?id=" + medicoId;
+    }
+
+    @PostMapping("/horario/agregar")
+    public String agregarHorario(@RequestParam String medicoId,
+                                 @RequestParam String dia,
+                                 @RequestParam String horaInicio,
+                                 @RequestParam String horaFin,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            service.agregarHorario(medicoId, dia, LocalTime.parse(horaInicio), LocalTime.parse(horaFin));
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/MiPerfil?id=" + medicoId;
+    }
+
+
+    @GetMapping("/eliminar")
+    public String Eliminar() {
+        return "horario/eliminar";
+    }
+
+    @PostMapping("/horario/eliminar")
+    public String eliminarHorario(@RequestParam String id, @RequestParam String dia) {
+        service.eliminarHorario(id, dia);
+        return "redirect:/MiPerfil?id=" + id;
     }
 
     @GetMapping("/")
@@ -177,15 +246,13 @@ public class controller {
         // Recuperar el usuario con el id proporcionado
         Usuario usuario = service.findUsuarioById(id);
 
-        // Verificar si el usuario existe
         if (usuario == null) {
             model.addAttribute("error", "Usuario no encontrado");
-            return "redirect:/register/guardar"; // O lo que corresponda
+            return "redirect:/register/guardar";
         }
 
-        // Pasar el usuario a la vista
         model.addAttribute("usuario", usuario);
-        return "/presentation/Registro/registroMedico"; // Formulario para registrar el médico
+        return "/presentation/Registro/registroMedico";
     }
 
     @GetMapping("/confirmar")
@@ -200,7 +267,6 @@ public class controller {
             model.addAttribute("error", "Médico no encontrado");
         }
 
-        // Separar fecha y hora del parámetro `ddt`
         String[] dateTimeParts = dateTime.split("T");
         if (dateTimeParts.length == 2) {
             model.addAttribute("fecha", dateTimeParts[0]);
@@ -221,7 +287,6 @@ public class controller {
 
         return "redirect:/confirmar?did=" + encodedDoctorId + "&ddt=" + encodedDateTime;
     }
-
 
     @GetMapping("/RegistroExitoso")
     public String RegistroExitoso(Model model) {

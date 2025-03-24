@@ -116,53 +116,62 @@ html, body {
 }
 
 .appointment-container {
+    transform: translateY(25%);
     display: flex;
     justify-content: center;
-    font-size: 16px;
+    align-items: center;
 }
 
 .appointment-card {
     background: #fff;
-    width: 500px;
-    height: 300px;
+    width: 300px;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    align-items: center;
-    justify-content: center;
-    top: 50%
 }
 
 .doctor-photo {
     width: 80px;
     height: 90px;
     border-radius: 50%;
-    margin-right: 10px;
     object-fit: cover;
 }
 
+.appointment-card p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.appointment-card i {
+    color: #119dac;
+    margin-right: 5px;
+}
+
 .actions {
-    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     margin-top: 20px;
-    gap: 50px
 }
 
-.confirm-btn {
-    background: lightblue;
-    padding: 10px;
+.confirm-btn, .cancel-btn {
+    background: #d8e9f3;
+    color: #119dac;
+    padding: 8px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.cancel-btn {
-    background: lightblue;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+.confirm-btn:hover, .cancel-btn:hover {
+    background: #b8d8eb;
 }
+
 
 
 .footer {

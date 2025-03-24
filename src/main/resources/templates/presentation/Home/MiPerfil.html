@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil - Sistema de Citas Médicas</title>
+  <link rel="stylesheet" href="/css/miperfil.css">
+</head>
+<body>
+<div class="header">
+  <div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+  </div>
+  <div class="contact">
+    📞 +506 5467 0937
+  </div>
+  <div class="nav-links">
+    <th:block sec:authorize="isAnonymous()">
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated()">
+      <th:block th:with="rol=${#authentication.principal.getRol}">
+        <th:block th:if="${rol == 1}">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/Historial">Historial</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/home">Search</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/MiPerfil"><span sec:authentication="name"></span></a>
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+        </th:block>
+        <th:block th:if="${rol == 2}">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/Historial">Citas</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/home">Search</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/MiPerfil"><span sec:authentication="name"></span></a>
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+        </th:block>
+      </th:block>
+    </th:block>
+  </div>
+</div>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <img th:src="@{/usuario/imagen/{id}(id=${usuario.id})}" alt="Foto de perfil" class="profile-photo">
+    <h2 th:text="${usuario.nombre}"></h2>
+
+    <th:block th:with="rol=${#authentication.principal.getRol}">
+      <th:block th:if="${rol == 2}">
+        <form th:action="@{/medico/actualizar}" method="post">
+          <input type="hidden" name="id" th:value="${usuario.medico.id}">
+
+          <div class="form-group">
+            <label for="costo">Costo:</label>
+            <input type="number" id="costo" name="costo" th:value="${usuario.medico.costo}" required>
+          </div>
+
+          <div class="form-group">
+            <label for="localidad">Localidad:</label>
+            <input type="text" id="localidad" name="localidad" th:value="${usuario.medico.localidad}" required>
+          </div>
+
+          <div class="form-group">
+            <label for="frecuencia">Frecuencia:</label>
+            <input type="text" id="frecuencia" name="frecuencia" th:value="${usuario.medico.frecuenciaCitas}" required>
+          </div>
+
+          <div class="btn-container">
+            <button type="submit" class="btn">Actualizar</button>
+          </div>
+        </form>
+
+        <h3>Horarios de Atención</h3>
+        <table>
+          <tr>
+            <th>Día</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Acción</th>
+          </tr>
+          <tr th:each="horario : ${horarios}">
+            <td th:text="${horario.dia}"></td>
+            <td th:text="${horario.horaInicioStr}"></td>
+            <td th:text="${horario.horaFinStr}"></td>
+            <td>
+              <form th:action="@{/horario/eliminar}" method="post">
+                <input type="hidden" name="id" th:value="${horario.id}">
+                <input type="hidden" name="dia" th:value="${horario.dia}">
+                <button type="submit" class="btn-delete">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        </table>
+
+        <h3>Agregar Nuevo Horario</h3>
+        <form th:action="@{/horario/agregar}" method="post">
+          <input type="hidden" name="medicoId" th:value="${usuario.medico.id}">
+
+          <div class="form-group">
+          <label for="dia">Día:</label>
+          <select id="dia" name="dia">
+            <option value="Lunes">Lunes</option>
+            <option value="Martes">Martes</option>
+            <option value="Miércoles">Miércoles</option>
+            <option value="Jueves">Jueves</option>
+            <option value="Viernes">Viernes</option>
+            <option value="Sábado">Sábado</option>
+            <option value="Domingo">Domingo</option>
+          </select>
+          </div>
+
+          <div class="form-group">
+          <label for="horaInicio">Hora Inicio:</label>
+          <input type="time" id="horaInicio" name="horaInicio" required>
+          </div>
+
+          <div class="form-group">
+          <label for="horaFin">Hora Fin:</label>
+          <input type="time" id="horaFin" name="horaFin" required>
+          </div>
+
+          <div class="btn-container">
+            <button type="submit" class="btn">Actualizar</button>
+          </div>
+        </form>
+        <div th:if="${error}" class="error-message">
+          <p th:text="${error}"></p>
+        </div>
+      </th:block>
+    </th:block>
+  </div>
+</div>
+
+<div class="footer">
+  <div>Total Soft Inc.</div>
+  <div class="social-icons">
+    <img src="/images/twitter.png" alt="Twitter">
+    <img src="/images/facebook.png" alt="Facebook">
+    <img src="/images/instagram.png" alt="Instagram"/>
+  </div>
+  <div>©2019 Tsf, Inc.</div>
+</div>
+</body>
+</html>

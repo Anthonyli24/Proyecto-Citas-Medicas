@@ -30,14 +30,14 @@
                     <a href="/about">About</a>
                 </li>
                 <li class="dropdown-item">
-                    <a href="/history">Historial</a>
+                    <a href="/Historial">Historial</a>
                 </li>
                 <li class="dropdown-item">
                     <a href="#">
                         <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
                     </a>
                     <ul class="dropdown-submenu">
-                        <a href="/presentation/perfil/show"><span sec:authentication="name"></span></a>
+                        <a href="/MiPerfil"><span sec:authentication="name"></span></a>
                         <a href="/logout">Logout</a>
                     </ul>
                 </li>
@@ -49,14 +49,14 @@
                         <a href="/about">About</a>
                     </li>
                     <li class="dropdown-item">
-                        <a href="/Appointments">Citas</a>
+                        <a href="/Historial">Citas</a>
                     </li>
                     <li class="dropdown-item">
                         <a href="#">
                             <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
                         </a>
                         <ul class="dropdown-submenu">
-                            <a href="/presentation/perfil/show"><span sec:authentication="name"></span></a>
+                            <a href="/MiPerfil"><span sec:authentication="name"></span></a>
                             <a href="/logout">Logout</a>
                         </ul>
                     </li>
