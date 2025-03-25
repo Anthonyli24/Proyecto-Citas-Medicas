@@ -30,10 +30,6 @@ public class Usuario {
     @OneToOne(mappedBy = "usuario") // Relación con Médico
     private Medico medico;
 
-    @Size(max = 255)
-    @Column(name = "imagen", length = 255)
-    private String imagen;
-
     public Medico getMedico() {
         return medico;
     }
