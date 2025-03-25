@@ -1,16 +1,12 @@
 package com.example.proyecto_sistema_citas.presentation.Login;
 
-import com.example.proyecto_sistema_citas.data.MedicoRepository;
 import com.example.proyecto_sistema_citas.logic.*;
-import com.example.proyecto_sistema_citas.presentation.Security.UserDetailsImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,9 +20,8 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 @org.springframework.stereotype.Controller("Login")
 public class controller {
@@ -73,7 +68,8 @@ public class controller {
     }
 
     @GetMapping("/Historial")
-    public String Historial(Model model) {
+    public String Historial(Model model,@AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
+        model.addAttribute("citas",  service.obtenerCitasPorUsuario(usuario.getId()));
         return "/presentation/Cita/historial";
     }
 
@@ -128,6 +124,7 @@ public class controller {
         medico.setFrecuenciaCitas(frecuencia);
 
         service.actualizarMedico(medico);
+
 
         return "redirect:/MiPerfil?id=" + medicoId;
     }
@@ -294,6 +291,31 @@ public class controller {
         return "presentation/Home/confirmar";
     }
 
+
+
+
+
+    @GetMapping("/appointment/confirm")
+    public String AgendarCita(@RequestParam("did") String medicoId, // Cambiar a String para manejar identificadores como "M001"
+                              @RequestParam("ddt") String fechaHora, // Recibe el parámetro 'ddt' que contiene "fechaTtime"
+                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
+
+        Cita cita = new Cita();
+        cita.setMedico(service.obtenerMedicoPorId(medicoId)); // El ID es un String, no Long
+        cita.setUsuario(usuario);
+        String[] fechaHoraParts = fechaHora.split("T");
+        DateTimeFormatter formatterFecha = DateTimeFormatter.ofPattern("d/M/yy");
+        LocalDate fecha = LocalDate.parse(fechaHoraParts[0], formatterFecha);
+        DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime hora = LocalTime.parse(fechaHoraParts[1], formatterHora);
+        cita.setFecha(fecha);
+        cita.setHora(hora);
+        cita.setStatus("Pendiente");
+        service.agendarCita(cita);
+        return "/presentation/Home/home";
+    }
+
+
     @GetMapping("/book")
     public String redirigirReserva(@RequestParam("did") String doctorId,
                                    @RequestParam("ddt") String dateTime) {
@@ -307,4 +329,16 @@ public class controller {
     public String RegistroExitoso(Model model) {
         return "redirect: /";
     }
+
+    @GetMapping("/citas/filtro")
+    public String FiltroCitas(@RequestParam(defaultValue = "Pendiente") String status,
+                              @RequestParam(defaultValue = "") String doctor, Model model){
+
+        Iterable<Cita> citas = service.FiltradoCitas(status, doctor);
+
+
+        model.addAttribute("citas", citas);
+        return "/presentation/Cita/historial";
+    }
 }
+

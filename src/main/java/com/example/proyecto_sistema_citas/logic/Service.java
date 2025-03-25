@@ -4,6 +4,7 @@ import com.example.proyecto_sistema_citas.data.HorarioRepository;
 import com.example.proyecto_sistema_citas.data.MedicoRepository;
 import com.example.proyecto_sistema_citas.data.RolRepository;
 import com.example.proyecto_sistema_citas.data.UsuarioRepository;
+import com.example.proyecto_sistema_citas.data.CitaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +24,9 @@ public class Service {
 
     @Autowired
     private HorarioRepository horarioRepository;
+
+    @Autowired
+    private CitaRepository citaRepository;
 
     public Iterable<Usuario> usuarioFindAll(){
        return usuarioRepository.findAll();
@@ -128,5 +132,25 @@ public class Service {
         if (horario.isPresent() && horario.get().getDia().equalsIgnoreCase(dia)) {
             horarioRepository.delete(horario.get());
         }
+    }
+
+    public void agendarCita(Cita cita){
+        citaRepository.save(cita);
+    }
+
+    public List<Cita> obtenerCitasPorUsuario(String usuarioId) {
+        return citaRepository.findByUsuarioId(usuarioId);
+    }
+
+
+    public Iterable<Cita> FiltradoCitas(String status, String doctor) {
+        if ((status == null || status.isEmpty()) && (doctor == null || doctor.isEmpty())) {
+            return citaRepository.findAll();
+        }
+
+        if (status == null) status = "";
+        if (doctor == null) doctor = "";
+
+        return citaRepository.findByStatusContainingAndMedicoUsuarioNombreContainingIgnoreCase(status, doctor);
     }
 }

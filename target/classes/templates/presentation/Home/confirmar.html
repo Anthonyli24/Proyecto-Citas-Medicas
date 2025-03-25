@@ -77,7 +77,7 @@
     <p><i class="fa fa-map-marker"></i> <span th:text="${medico.localidad}"></span></p>
 
     <div class="actions">
-<!--        <a th:href="@{/appointment/confirm(did=${medico.id}, ddt=${fecha} + 'T' + ${hora})}">-->
+       <a th:href="@{/appointment/confirm(did=${medico.id}, ddt=${fecha} + 'T' + ${hora})}">
         <button class="confirm-btn">Confirm</button>
       </a>
       <a href="/home">

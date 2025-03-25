@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Table(name = "cita")
 public class Cita {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -37,6 +38,7 @@ public class Cita {
     private LocalTime hora;
 
     @NotNull
+
     @ColumnDefault("'Pendiente'")
     @Lob
     @Column(name = "status", nullable = false)
