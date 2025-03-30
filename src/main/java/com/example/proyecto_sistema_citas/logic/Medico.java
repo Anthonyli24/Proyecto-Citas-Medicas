@@ -143,6 +143,21 @@ public class Medico {
         return disponibilidad;
     }
 
+    public Map<LocalDate, List<String>> nextWeek() {
+        Map<LocalDate, List<String>> disponibilidad = new TreeMap<>();
+        LocalDate fechaActual = LocalDate.now().plusWeeks(1);  // Avanzamos una semana
+
+        for (Horario horario : horarios) {
+            DayOfWeek diaSemana = convertirDiaSemana(horario.getDia());
+            LocalDate proximaFecha = obtenerProximaFecha(fechaActual, diaSemana);
+
+            List<String> horariosGenerados = generarHorarios(horario);
+            disponibilidad.put(proximaFecha, horariosGenerados);
+        }
+
+        return disponibilidad;
+    }
+
     private DayOfWeek convertirDiaSemana(String dia) {
         return switch (dia.toLowerCase()) {
             case "lunes" -> DayOfWeek.MONDAY;

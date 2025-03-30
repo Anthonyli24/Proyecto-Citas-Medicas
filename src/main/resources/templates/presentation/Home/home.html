@@ -144,5 +144,25 @@
     </div>
     <div>©2019 Tsf, Inc.</div>
 </div>
+<script>
+    function changeDate(button, weeks) {
+        const row = button.closest('tr');
+        const dateElements = row.querySelectorAll('.date');
+
+        dateElements.forEach(dateElement => {
+            const currentDate = new Date(dateElement.dataset.date); // Obtiene la fecha del atributo data-date
+            const newDate = new Date(currentDate.getTime() + (weeks * 7 * 24 * 60 * 60 * 1000));
+
+            // Formatea la fecha al formato dd/mm/aaaa
+            const day = String(newDate.getDate()).padStart(2, '0');
+            const month = String(newDate.getMonth() + 1).padStart(2, '0');
+            const year = newDate.getFullYear();
+            dateElement.textContent = `${day}/${month}/${year}`;
+
+            // Actualiza el atributo data-date con la nueva fecha
+            dateElement.dataset.date = `${year}-${month}-${day}`;
+        });
+    }
+</script>
 </body>
 </html>
