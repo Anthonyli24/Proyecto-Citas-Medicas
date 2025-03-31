@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Mostrar Notas</title>
+</head>
+<body>
+<h2>Notas de la Cita</h2>
+
+<!-- Mostrar las notas de la cita o un mensaje alternativo si no hay notas -->
+<p th:text="${cita.notas != null && !cita.notas.isEmpty() ? cita.notas : 'No hay notas disponibles'}"></p>
+</body>
+</html>

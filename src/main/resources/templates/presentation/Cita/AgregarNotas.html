@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Notas</title>
+</head>
+<body>
+<!-- Mostrar el atributo cita que hay en el model -->
+<p th:text="${cita}">Atributo cita del modelo</p>
+
+<!-- Formulario para agregar notas -->
+<form th:action="@{/AgregarNotas/{id}(id=${cita.id})}" method="post">
+    <label for="nota">Agregar Nota:</label>
+    <textarea id="nota" name="nota" rows="4" cols="50" placeholder="Escribe la nota aquí..."></textarea>
+
+    <button type="submit">Guardar Nota</button>
+</form>
+</body>
+</html>

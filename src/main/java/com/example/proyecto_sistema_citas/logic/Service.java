@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,14 +144,89 @@ public class Service {
     }
 
 
-    public Iterable<Cita> FiltradoCitas(String status, String doctor) {
+    public Cita obtenerCitaPorId(String id){
+        return citaRepository.findById(id).get();
+    }
+
+    public void actualizarCita(Cita cita) {
+        Cita citaExistente = citaRepository.findById(String.valueOf(cita.getId()))
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + cita.getId()));
+
+        citaExistente.setStatus(cita.getStatus());
+        citaExistente.setMedico(cita.getMedico());
+        citaExistente.setUsuario(cita.getUsuario());
+        citaExistente.setFecha(cita.getFecha());
+        citaExistente.setHora(cita.getHora());
+
+        citaRepository.save(citaExistente);
+    }
+
+
+    public Iterable<Cita> obtenerCitasPorMedico(String id) {
+        return citaRepository.findByMedicoId(id);
+    }
+
+    public Iterable<Cita> FiltradoCitas(String status, String doctor, String id) {
+        // Si ni status ni doctor se proporcionan, solo filtra por la ID del médico.
         if ((status == null || status.isEmpty()) && (doctor == null || doctor.isEmpty())) {
-            return citaRepository.findAll();
+            return citaRepository.findByMedicoId(id); // Filtra solo por la ID del médico.
         }
 
-        if (status == null) status = "";
-        if (doctor == null) doctor = "";
+        // Si el estado no está vacío, filtra por estado y la ID del médico.
+        if (status != null && !status.isEmpty()) {
+            return citaRepository.findByStatusAndMedicoId(status, id); // Filtra por estado y ID del médico.
+        }
 
-        return citaRepository.findByStatusContainingAndMedicoUsuarioNombreContainingIgnoreCase(status, doctor);
+        // Si el nombre del doctor no está vacío, intenta filtrar por el nombre del doctor y la ID del médico.
+        if (doctor != null && !doctor.isEmpty()) {
+            // Verificar si el doctor existe en la base de datos
+            if (doctorExisteEnBaseDeDatos(doctor)) {
+                return citaRepository.findByMedicoUsuarioNombreContainingIgnoreCaseAndMedicoId(doctor, id); // Filtra por nombre del doctor y ID.
+            } else {
+                return new ArrayList<>(); // Si el doctor no existe, devuelve una lista vacía.
+            }
+        }
+
+        // Si solo la ID del médico está presente, filtra solo por la ID del médico.
+        return citaRepository.findByMedicoId(id);
     }
+
+
+
+    private boolean pacienteExisteEnBaseDeDatos(String paciente) {
+        Usuario pacienteUsuario = usuarioRepository.findByNombreContainingIgnoreCase(paciente);
+        return pacienteUsuario != null;
+    }
+
+
+    private boolean doctorExisteEnBaseDeDatos(String doctor) {
+        Medico medico = medicoRepository.findByUsuarioNombreContainingIgnoreCase(doctor);
+        return medico != null;
+    }
+
+
+    public Iterable<Cita> FiltradoCitasPaciente(String status, String paciente, String id) {
+        // Si no se proporciona ni estado ni paciente, filtra solo por la ID del usuario.
+        if ((status == null || status.isEmpty()) && (paciente == null || paciente.isEmpty())) {
+            return citaRepository.findByUsuarioId(id); // Filtra solo por la ID del usuario (en lugar de paciente).
+        }
+
+        // Si se proporciona estado, filtra por estado y ID del usuario.
+        if (status != null && !status.isEmpty()) {
+            return citaRepository.findByStatusAndUsuarioId(status, id); // Filtra por estado y ID del usuario.
+        }
+
+        // Si se proporciona nombre de paciente, verifica si existe y filtra por nombre del usuario y ID del usuario.
+        if (paciente != null && !paciente.isEmpty()) {
+            if (pacienteExisteEnBaseDeDatos(paciente)) {
+                return citaRepository.findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(paciente, id); // Filtra por nombre del paciente (usuario) y ID.
+            } else {
+                return new ArrayList<>(); // Si el paciente no existe, devuelve una lista vacía.
+            }
+        }
+
+        // Si solo la ID del usuario está presente, filtra solo por la ID del usuario.
+        return citaRepository.findByUsuarioId(id);
+    }
+
 }

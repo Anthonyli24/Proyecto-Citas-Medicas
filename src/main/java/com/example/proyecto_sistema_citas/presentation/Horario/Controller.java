@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.Horario;
+package com.example.proyecto_sistema_citas.presentation.Horario;
 
 import com.example.proyecto_sistema_citas.logic.Service;
 import org.springframework.beans.factory.annotation.Autowired;

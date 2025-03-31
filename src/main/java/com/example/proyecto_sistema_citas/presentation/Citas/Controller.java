@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.Citas;
+package com.example.proyecto_sistema_citas.presentation.Citas;
 
 
 import com.example.proyecto_sistema_citas.logic.Cita;
@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URLEncoder;
@@ -81,20 +83,49 @@ public class Controller {
     }
 
     @GetMapping("/citas/filtro")
-    public String FiltroCitas(@RequestParam(defaultValue = "Pendiente") String status,
-                              @RequestParam(defaultValue = "") String doctor, Model model){
+    public String FiltroCitas(@RequestParam(value = "status", required = false) String status,
+                              @RequestParam(value = "doctor", defaultValue = "") String doctor, Model model,
+                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario){
 
-        Iterable<Cita> citas = service.FiltradoCitas(status, doctor);
+        // Si no se recibe status, lo dejamos vacío.
+        if (status == null || status.isEmpty()) {
+            status = "";  // O podrías poner null si prefieres
+        }
 
-
-        model.addAttribute("citas", citas);
+        Iterable<Cita> citas = service.FiltradoCitas(status, doctor, usuario.getId());
+        model.addAttribute("CitasMedico", citas);
         return "/presentation/Cita/historial";
     }
 
+
     @GetMapping("/AgregarNotas/{id}")
-    public String AgregarNotas(@RequestParam("id") String id, Model model){
+    public String AgregarNotas(@PathVariable("id") String id, Model model){
+        System.out.println("ID de la cita: " + id);
         Cita cita = service.obtenerCitaPorId(id);
         model.addAttribute("cita", cita);
+        model.addAttribute("Notas");
         return "/presentation/Cita/AgregarNotas";
     }
+
+    @PostMapping("/AgregarNotas/{id}")
+    public String guardarNotas(@PathVariable("id") String id, @RequestParam("nota") String nota) {
+        Cita cita = service.obtenerCitaPorId(id);
+        cita.setNotas(nota);
+        service.actualizarCita(cita); // Actualiza la cita con las notas
+         // Guardar los cambios
+        return "redirect:/historial"; // Redirige a la lista de citas u otra vista
+    }
+
+
+    @GetMapping("/citas/filtro/paciente")
+    public String filtroPacientes(@RequestParam(value = "status", required = false) String status,
+                                   @RequestParam(value = "paciente", defaultValue = "") String paciente, Model model,
+                                  @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
+
+        Iterable<Cita> citas = service.FiltradoCitasPaciente(status, paciente, usuario.getId());
+        model.addAttribute("CitasPaciente", citas);
+        return "/presentation/Cita/HistorialPaciente";
+    }
+
+
 }

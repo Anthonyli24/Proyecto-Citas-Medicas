@@ -83,6 +83,37 @@ public class Controller {
         return "/presentation/Registro/registroMedico";
     }
 
+    @PostMapping("/register/guardar/medico/{id}")
+    public String registrarMedico(@PathVariable("id") String id,
+                                  @RequestParam String especialidad,
+                                  @RequestParam String costo,
+                                  @RequestParam String localidad,
+                                  @RequestParam String frecuencia,
+                                  Model model) {
+        // Recuperar el usuario con el id proporcionado
+        Usuario usuario = service.findUsuarioById(id);
+
+        // Verificar si el usuario existe
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado");
+            return "redirect:/register/guardar"; // O lo que corresponda
+        }
+
+        // Crear una nueva entidad Médico y asignar los datos
+        Medico medico = new Medico();
+        medico.setUsuario(usuario);  // Asociar el usuario al médico
+        medico.setEspecialidad(especialidad);
+        medico.setCosto(Double.parseDouble(costo));
+        medico.setLocalidad(localidad);
+        medico.setFrecuenciaCitas(Integer.parseInt(frecuencia));
+
+        // Guardar el médico en la base de datos
+        service.registrarMedico(medico);
+
+        // Redirigir a la página de éxito
+        return "/presentation/Registro/registroExitoso"; // O el que corresponda
+    }
+
 
 
 

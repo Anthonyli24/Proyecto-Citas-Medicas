@@ -42,11 +42,7 @@ public class Controller {
         return "/presentation/Registro/registro";
     }
 
-    @GetMapping("/Historial")
-    public String Historial(Model model,@AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
-        model.addAttribute("citas",  service.obtenerCitasPorUsuario(usuario.getId()));
-        return "/presentation/Cita/historial";
-    }
+
 
 
     @PostMapping("/register/guardar")

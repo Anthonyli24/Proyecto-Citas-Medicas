@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,10 +55,12 @@
     <div class="row mt-3">
         <div class="col-md-3">
             <select name="status" class="form-select">
+                <option value="" selected disabled>Seleccione un estado</option>
                 <option value="Pendiente">Pendiente</option>
                 <option value="Cancelada">Cancelada</option>
                 <option value="Completada">Completada</option>
             </select>
+
         </div>
         <div class="col-md-6">
             <input type="text" name="doctor" class="form-control" placeholder="Doctor">
@@ -73,7 +75,7 @@
 <!-- Lista de citas -->
 <div class="mt-4">
     <!-- Iterar sobre las citas -->
-    <div th:each="cita : ${citas}" class="appointment-card">
+    <div th:each="cita : ${CitasMedico}" class="appointment-card">
         <img src="doctor-placeholder.jpg" class="profile-img me-3" alt="Doctor">
         <div class="flex-grow-1">
             <!-- Mostrar el nombre del doctor (medico), el código y especialidad -->
@@ -91,11 +93,18 @@
             <a href="#" class="ms-3 view-link"><i class="fas fa-eye"></i> Ver</a>
             <!-- Botón para agregar notas -->
             <a th:href="@{/AgregarNotas/{id}(id=${cita.id})}" class="btn btn-primary ms-3 add-notes-btn">Agregar Notas</a>
+            <!-- Botones Aceptar y Cancelar -->
+            <form th:action="@{/AceptarCita/{id}(id=${cita.id})}" method="post">
+                <button type="submit">Aceptar</button>
+            </form>
+
+            <form th:action="@{/CancelarCita/{id}(id=${cita.id})}" method="post">
+                <button type="submit">Cancelar</button>
+            </form>
         </div>
     </div>
-
-
 </div>
+
 
 </div>
 
