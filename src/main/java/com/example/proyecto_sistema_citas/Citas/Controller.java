@@ -90,4 +90,11 @@ public class Controller {
         model.addAttribute("citas", citas);
         return "/presentation/Cita/historial";
     }
+
+    @GetMapping("/AgregarNotas/{id}")
+    public String AgregarNotas(@RequestParam("id") String id, Model model){
+        Cita cita = service.obtenerCitaPorId(id);
+        model.addAttribute("cita", cita);
+        return "/presentation/Cita/AgregarNotas";
+    }
 }
