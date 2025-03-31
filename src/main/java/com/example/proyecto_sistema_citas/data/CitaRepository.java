@@ -19,4 +19,6 @@ public interface CitaRepository extends CrudRepository<Cita, String> {
     Iterable<Cita> findByStatusAndUsuarioId(String status, String id);
 
     Iterable<Cita> findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(String paciente, String id);
+
+    Iterable<Cita> findByStatus(String status);
 }

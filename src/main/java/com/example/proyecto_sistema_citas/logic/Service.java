@@ -1,9 +1,10 @@
 package com.example.proyecto_sistema_citas.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalTime;
-import java.util.ArrayList;
+
 import jakarta.transaction.Transactional;
 import com.example.proyecto_sistema_citas.data.RolRepository;
 import com.example.proyecto_sistema_citas.data.CitaRepository;
@@ -24,6 +25,8 @@ public class Service {
     private HorarioRepository horarioRepository;
     @Autowired
     private CitaRepository citaRepository;
+
+
 
     public Iterable<Usuario> usuarioFindAll(){
        return usuarioRepository.findAll();
@@ -152,24 +155,7 @@ public class Service {
         return citaRepository.findByMedicoId(id);
     }
 
-    public Iterable<Cita> FiltradoCitas(String status, String doctor, String id) {
-        if ((status == null || status.isEmpty()) && (doctor == null || doctor.isEmpty())) {
-            return citaRepository.findByMedicoId(id);
-        }
 
-        if (status != null && !status.isEmpty()) {
-            return citaRepository.findByStatusAndMedicoId(status, id);
-        }
-
-        if (doctor != null && !doctor.isEmpty()) {
-            if (doctorExisteEnBaseDeDatos(doctor)) {
-                return citaRepository.findByMedicoUsuarioNombreContainingIgnoreCaseAndMedicoId(doctor, id);
-            } else {
-                return new ArrayList<>();
-            }
-        }
-        return citaRepository.findByMedicoId(id);
-    }
 
     private boolean pacienteExisteEnBaseDeDatos(String paciente) {
         Usuario pacienteUsuario = usuarioRepository.findByNombreContainingIgnoreCase(paciente);
@@ -181,22 +167,40 @@ public class Service {
         return medico != null;
     }
 
-    public Iterable<Cita> FiltradoCitasPaciente(String status, String paciente, String id) {
-        if ((status == null || status.isEmpty()) && (paciente == null || paciente.isEmpty())) {
-            return citaRepository.findByUsuarioId(id);
+    public Usuario encontrarUsuarioPorNombre(String nombre) {
+        return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+
+    public Iterable<Cita> filtroHistorialPaciente(String status, String id, String idpaciente) {
+        if (id != null && !id.isEmpty()) {
+            if (status != null && !status.isEmpty()) {
+                return citaRepository.findByStatusAndMedicoId(status, id);
+            }
+            return citaRepository.findByMedicoId(id);
         }
 
         if (status != null && !status.isEmpty()) {
-            return citaRepository.findByStatusAndUsuarioId(status, id);
+            return citaRepository.findByStatus(status);
         }
 
-        if (paciente != null && !paciente.isEmpty()) {
-            if (pacienteExisteEnBaseDeDatos(paciente)) {
-                return citaRepository.findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(paciente, id);
-            } else {
-                return new ArrayList<>();
+        return citaRepository.findByUsuarioId(idpaciente);
+    }
+
+    public Iterable<Cita> filtroHistorialMedico(String status, String userid, String idDoctor) {
+
+        //userid es la id del medico
+        if (userid != null && !userid.isEmpty()) {
+            if (status != null && !status.isEmpty()) {
+                return citaRepository.findByStatusAndUsuarioId(status, userid);
             }
+            return citaRepository.findByUsuarioId(userid);
         }
-        return citaRepository.findByUsuarioId(id);
+
+        if (status != null && !status.isEmpty()) {
+            return citaRepository.findByStatus(status);
+        }
+
+        return citaRepository.findByMedicoId(idDoctor);
     }
 }

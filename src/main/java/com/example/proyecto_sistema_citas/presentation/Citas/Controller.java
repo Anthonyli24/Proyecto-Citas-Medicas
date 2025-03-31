@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import org.springframework.ui.Model;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 import com.example.proyecto_sistema_citas.logic.Cita;
 import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
@@ -73,19 +75,6 @@ public class Controller {
         return "redirect:/confirmar?did=" + encodedDoctorId + "&ddt=" + encodedDateTime;
     }
 
-    @GetMapping("/citas/filtro")
-    public String FiltroCitas(@RequestParam(value = "status", required = false) String status,
-                              @RequestParam(value = "doctor", defaultValue = "") String doctor, Model model,
-                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario){
-
-        if (status == null || status.isEmpty()) {
-            status = "";
-        }
-
-        Iterable<Cita> citas = service.FiltradoCitas(status, doctor, usuario.getId());
-        model.addAttribute("CitasMedico", citas);
-        return "/presentation/Cita/historial";
-    }
 
     @GetMapping("/agregarNotas/{id}")
     public String AgregarNotas(@PathVariable("id") String id, Model model){
@@ -105,16 +94,29 @@ public class Controller {
 
     @GetMapping("/citas/filtro/paciente")
     public String filtroPacientes(@RequestParam(value = "status", required = false) String status,
-                                  @RequestParam(value = "paciente", defaultValue = "") String doctor, Model model,
+                                  @RequestParam(value = "doctor", required = false) String doctor,
+                                  Model model,
                                   @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
 
-        if (status == null || status.isEmpty()) {
-            status = "";
-        }
+        Usuario medico = (doctor == null || doctor.trim().isEmpty()) ? null : service.encontrarUsuarioPorNombre(doctor);
 
-        Iterable<Cita> citas = service.FiltradoCitas("Completado", doctor, usuario.getId());
-        model.addAttribute("CitasPaciente", citas);
-        System.out.println("citas: " + citas);
+        model.addAttribute("CitasPaciente", service.filtroHistorialPaciente(status, medico != null ? medico.getId() : null,usuario.getId()));
+
         return "/presentation/Cita/historialPaciente";
     }
+
+
+    @GetMapping("/citas/filtro/medico")
+    public String FiltroCitas(@RequestParam(value = "status", required = false) String status,
+                              @RequestParam(value = "paciente", defaultValue = "") String paciente,
+                              Model model,
+                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario){
+
+        Usuario pacienteUsuario = (paciente == null || paciente.trim().isEmpty()) ? null : service.encontrarUsuarioPorNombre(paciente);
+        model.addAttribute("CitasMedico", service.filtroHistorialMedico(status, pacienteUsuario != null ? pacienteUsuario.getId() : null, usuario.getId()));
+
+        return "/presentation/Cita/historial";
+    }
+
+
 }
