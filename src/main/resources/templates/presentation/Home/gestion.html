@@ -34,7 +34,7 @@
   </div>
 </div>
 <h2>Médicos Pendientes de Aprobación</h2>
-<table class="appointment-table">
+<table class="gestion-table">
   <tr>
     <th>Foto</th>
     <th>Nombre</th>
@@ -43,7 +43,7 @@
     <th>Costo</th>
     <th>Acción</th>
   </tr>
-  <tr th:each="medico : ${medicos}" th:if="${medico.status != 'PENDIENTE'}" class="appointment-row">
+  <tr th:each="medico : ${medicos}" th:if="${medico.status != 'PENDIENTE'}" class="medicos-row">
     <td>
       <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture rounded-circle">
     </td>

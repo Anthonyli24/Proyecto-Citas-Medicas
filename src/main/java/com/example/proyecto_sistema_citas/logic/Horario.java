@@ -1,11 +1,10 @@
 package com.example.proyecto_sistema_citas.logic;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import java.time.LocalTime;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "horario")
@@ -37,44 +36,34 @@ public class Horario {
     public Integer getId() {
         return id;
     }
+    public Medico getMedico() {
+        return medico;
+    }
+    public String getDia() {
+        return dia;
+    }
+    public LocalTime getHoraInicio() {
+        return horaInicio;
+    }
+    public LocalTime getHoraFin() {
+        return horaFin;
+    }
+    public String getHoraInicioStr() {return horaInicio.toString();}
 
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public Medico getMedico() {
-        return medico;
-    }
-
     public void setMedico(Medico medico) {
         this.medico = medico;
     }
-
-    public String getDia() {
-        return dia;
-    }
-
     public void setDia(String dia) {
         this.dia = dia;
     }
-
-    public LocalTime getHoraInicio() {
-        return horaInicio;
-    }
-
     public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
-
-    public LocalTime getHoraFin() {
-        return horaFin;
-    }
-
     public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
     }
-
-    public String getHoraInicioStr() {return horaInicio.toString();}
-
     public String getHoraFinStr() {return horaFin.toString();}
 }

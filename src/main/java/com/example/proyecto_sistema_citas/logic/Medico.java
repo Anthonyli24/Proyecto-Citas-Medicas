@@ -1,19 +1,18 @@
 package com.example.proyecto_sistema_citas.logic;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import java.util.*;
+import java.util.Set;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
 import java.math.BigDecimal;
+import jakarta.persistence.*;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import org.hibernate.annotations.OnDelete;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "medico")
@@ -22,7 +21,6 @@ public class Medico {
     @Size(max = 100)
     @Column(name = "id", nullable = false, length = 100)
     private String id;
-
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -53,74 +51,58 @@ public class Medico {
     @Column(name = "status", nullable = false)
     private String status;
 
-
     @OneToMany(mappedBy = "medico")
     private Set<Horario> horarios = new LinkedHashSet<>();
 
     public String getId() {
         return id;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public String getEspecialidad() {
         return especialidad;
     }
-
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
-    }
-
     public BigDecimal getCosto() {
         return costo;
     }
-
-    public void setCosto(double costo) {
-        this.costo = BigDecimal.valueOf(costo);
-    }
-
     public String getLocalidad() {
         return localidad;
     }
-
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
-
     public Integer getFrecuenciaCitas() {
         return frecuenciaCitas;
     }
-
-    public void setFrecuenciaCitas(Integer frecuenciaCitas) {
-        this.frecuenciaCitas = frecuenciaCitas;
-    }
-
     public Set<Horario> getHorarios() {
         return horarios;
     }
-
-    public void setHorarios(Set<Horario> horarios) {
-        this.horarios = horarios;
-    }
-
     public String getStatus() {
         return status;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+    public void setCosto(double costo) {
+        this.costo = BigDecimal.valueOf(costo);
+    }
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+    public void setFrecuenciaCitas(Integer frecuenciaCitas) {
+        this.frecuenciaCitas = frecuenciaCitas;
+    }
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
+    }
     public void setStatus(String status) {
         this.status = status;
     }
-
     @PrePersist
     public void setDefaultStatus() {
         if (this.status == null) {
@@ -139,13 +121,12 @@ public class Medico {
             List<String> horariosGenerados = generarHorarios(horario);
             disponibilidad.put(proximaFecha, horariosGenerados);
         }
-
         return disponibilidad;
     }
 
     public Map<LocalDate, List<String>> nextWeek() {
         Map<LocalDate, List<String>> disponibilidad = new TreeMap<>();
-        LocalDate fechaActual = LocalDate.now().plusWeeks(1);  // Avanzamos una semana
+        LocalDate fechaActual = LocalDate.now().plusWeeks(1);
 
         for (Horario horario : horarios) {
             DayOfWeek diaSemana = convertirDiaSemana(horario.getDia());
@@ -154,7 +135,6 @@ public class Medico {
             List<String> horariosGenerados = generarHorarios(horario);
             disponibilidad.put(proximaFecha, horariosGenerados);
         }
-
         return disponibilidad;
     }
 
@@ -186,8 +166,6 @@ public class Medico {
             horariosGenerados.add(inicio.toString());
             inicio = inicio.plusMinutes(frecuencia);
         }
-
         return horariosGenerados;
     }
-
 }

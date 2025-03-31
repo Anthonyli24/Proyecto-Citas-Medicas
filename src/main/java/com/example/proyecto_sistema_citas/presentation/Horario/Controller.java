@@ -1,20 +1,17 @@
 package com.example.proyecto_sistema_citas.presentation.Horario;
 
+import java.time.LocalTime;
 import com.example.proyecto_sistema_citas.logic.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalTime;
-
 
 @org.springframework.stereotype.Controller("Horario")
 public class Controller {
     @Autowired
     private Service service;
-
 
     @GetMapping("/agregar")
     public String mostrarFormulario() {
@@ -32,7 +29,6 @@ public class Controller {
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-
         return "redirect:/MiPerfil?id=" + medicoId;
     }
 

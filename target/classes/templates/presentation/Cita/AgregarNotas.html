@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Notas</title>
+    <link rel="stylesheet" href="/css/agregarNotas.css">
 </head>
 <body>
-<!-- Mostrar el atributo cita que hay en el model -->
-<p th:text="${cita}">Atributo cita del modelo</p>
 
-<!-- Formulario para agregar notas -->
-<form th:action="@{/AgregarNotas/{id}(id=${cita.id})}" method="post">
+<form th:action="@{/agregarNotas/{id}(id=${cita.id})}" method="post">
     <label for="nota">Agregar Nota:</label>
     <textarea id="nota" name="nota" rows="4" cols="50" placeholder="Escribe la nota aquí..."></textarea>
 
     <button type="submit">Guardar Nota</button>
 </form>
+
 </body>
 </html>

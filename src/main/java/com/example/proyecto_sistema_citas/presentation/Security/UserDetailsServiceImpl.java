@@ -1,16 +1,15 @@
 package com.example.proyecto_sistema_citas.presentation.Security;
 
-import com.example.proyecto_sistema_citas.data.UsuarioRepository;
+import org.springframework.stereotype.Service;
 import com.example.proyecto_sistema_citas.logic.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.proyecto_sistema_citas.data.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     @Autowired
     UsuarioRepository usuarioRepository;
 
@@ -24,5 +23,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
     }
-
 }

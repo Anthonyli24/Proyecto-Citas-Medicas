@@ -29,7 +29,7 @@
               <a href="/about">About</a>
             </li>
             <li class="dropdown-item">
-              <a href="/Historial">Historial</a>
+              <a href="/historialPaciente">Historial</a>
             </li>
             <li class="dropdown-item">
               <a href="/home">Search</a>
@@ -51,7 +51,7 @@
               <a href="/about">About</a>
             </li>
             <li class="dropdown-item">
-              <a href="/Historial">Citas</a>
+              <a href="/historial">Citas</a>
             </li>
             <li class="dropdown-item">
               <a href="/home">Search</a>
@@ -83,6 +83,11 @@
           <input type="hidden" name="id" th:value="${usuario.medico.id}">
 
           <div class="form-group">
+            <label for="especialidad">Especialidad:</label>
+            <input type="text" id="especialidad" name="especialidad" th:value="${usuario.medico.especialidad}" required>
+          </div>
+
+          <div class="form-group">
             <label for="costo">Costo:</label>
             <input type="number" id="costo" name="costo" th:value="${usuario.medico.costo}" required>
           </div>
@@ -94,7 +99,7 @@
 
           <div class="form-group">
             <label for="frecuencia">Frecuencia:</label>
-            <input type="text" id="frecuencia" name="frecuencia" th:value="${usuario.medico.frecuenciaCitas}" required>
+            <input type="number" id="frecuencia" name="frecuencia" th:value="${usuario.medico.frecuenciaCitas}" required>
           </div>
 
           <div class="btn-container">

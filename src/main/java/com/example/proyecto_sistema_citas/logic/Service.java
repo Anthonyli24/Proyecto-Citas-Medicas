@@ -1,18 +1,16 @@
 package com.example.proyecto_sistema_citas.logic;
 
-import com.example.proyecto_sistema_citas.data.HorarioRepository;
-import com.example.proyecto_sistema_citas.data.MedicoRepository;
-import com.example.proyecto_sistema_citas.data.RolRepository;
-import com.example.proyecto_sistema_citas.data.UsuarioRepository;
-import com.example.proyecto_sistema_citas.data.CitaRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import java.time.LocalTime;
+import java.util.ArrayList;
+import jakarta.transaction.Transactional;
+import com.example.proyecto_sistema_citas.data.RolRepository;
+import com.example.proyecto_sistema_citas.data.CitaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.proyecto_sistema_citas.data.MedicoRepository;
+import com.example.proyecto_sistema_citas.data.HorarioRepository;
+import com.example.proyecto_sistema_citas.data.UsuarioRepository;
 
 @org.springframework.stereotype.Service("service")
 public class Service {
@@ -22,10 +20,8 @@ public class Service {
     private MedicoRepository medicoRepository;
     @Autowired
     private RolRepository rolRepository;
-
     @Autowired
     private HorarioRepository horarioRepository;
-
     @Autowired
     private CitaRepository citaRepository;
 
@@ -67,7 +63,6 @@ public class Service {
         if ((especialidad == null || especialidad.isEmpty()) && (localidad == null || localidad.isEmpty())) {
             return (List<Medico>) medicoRepository.findAll();
         }
-
         if (especialidad == null) especialidad = "";
         if (localidad == null) localidad = "";
 
@@ -81,11 +76,9 @@ public class Service {
         return medicoRepository.findByStatusContainingIgnoreCase(status);
     }
 
-
     public void actualizarMedico(Medico medico) {
         Medico medicoExistente = medicoRepository.findById(medico.getId())
                 .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + medico.getId()));
-
         double costoDouble = medico.getCosto().doubleValue();
         medicoExistente.setCosto(costoDouble);
         medicoExistente.setLocalidad(medico.getLocalidad());
@@ -97,14 +90,11 @@ public class Service {
     public void aceptarMedico(String id) {
         Medico medico = medicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Médico no encontrado con ID: " + id));
-
         medico.setStatus("Aprobado");
         medicoRepository.save(medico);
     }
 
-    public List<Horario> obtenerHorariosPorMedico(String medicoId) {
-        return horarioRepository.findByMedicoId(medicoId);
-    }
+    public List<Horario> obtenerHorariosPorMedico(String medicoId) { return horarioRepository.findByMedicoId(medicoId); }
 
     public void agregarHorario(String medicoId, String dia, LocalTime horaInicio, LocalTime horaFin) {
         Medico medico = medicoRepository.findById(medicoId)
@@ -118,7 +108,6 @@ public class Service {
         if (!horariosExistentes.isEmpty()) {
             throw new IllegalArgumentException("El médico ya tiene un horario asignado para el día " + dia);
         }
-
         Horario nuevoHorario = new Horario();
         nuevoHorario.setMedico(medico);
         nuevoHorario.setDia(dia);
@@ -143,7 +132,6 @@ public class Service {
         return citaRepository.findByUsuarioId(usuarioId);
     }
 
-
     public Cita obtenerCitaPorId(String id){
         return citaRepository.findById(id).get();
     }
@@ -151,7 +139,6 @@ public class Service {
     public void actualizarCita(Cita cita) {
         Cita citaExistente = citaRepository.findById(String.valueOf(cita.getId()))
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada con ID: " + cita.getId()));
-
         citaExistente.setStatus(cita.getStatus());
         citaExistente.setMedico(cita.getMedico());
         citaExistente.setUsuario(cita.getUsuario());
@@ -161,72 +148,55 @@ public class Service {
         citaRepository.save(citaExistente);
     }
 
-
     public Iterable<Cita> obtenerCitasPorMedico(String id) {
         return citaRepository.findByMedicoId(id);
     }
 
     public Iterable<Cita> FiltradoCitas(String status, String doctor, String id) {
-        // Si ni status ni doctor se proporcionan, solo filtra por la ID del médico.
         if ((status == null || status.isEmpty()) && (doctor == null || doctor.isEmpty())) {
-            return citaRepository.findByMedicoId(id); // Filtra solo por la ID del médico.
+            return citaRepository.findByMedicoId(id);
         }
 
-        // Si el estado no está vacío, filtra por estado y la ID del médico.
         if (status != null && !status.isEmpty()) {
-            return citaRepository.findByStatusAndMedicoId(status, id); // Filtra por estado y ID del médico.
+            return citaRepository.findByStatusAndMedicoId(status, id);
         }
 
-        // Si el nombre del doctor no está vacío, intenta filtrar por el nombre del doctor y la ID del médico.
         if (doctor != null && !doctor.isEmpty()) {
-            // Verificar si el doctor existe en la base de datos
             if (doctorExisteEnBaseDeDatos(doctor)) {
-                return citaRepository.findByMedicoUsuarioNombreContainingIgnoreCaseAndMedicoId(doctor, id); // Filtra por nombre del doctor y ID.
+                return citaRepository.findByMedicoUsuarioNombreContainingIgnoreCaseAndMedicoId(doctor, id);
             } else {
-                return new ArrayList<>(); // Si el doctor no existe, devuelve una lista vacía.
+                return new ArrayList<>();
             }
         }
-
-        // Si solo la ID del médico está presente, filtra solo por la ID del médico.
         return citaRepository.findByMedicoId(id);
     }
-
-
 
     private boolean pacienteExisteEnBaseDeDatos(String paciente) {
         Usuario pacienteUsuario = usuarioRepository.findByNombreContainingIgnoreCase(paciente);
         return pacienteUsuario != null;
     }
 
-
     private boolean doctorExisteEnBaseDeDatos(String doctor) {
         Medico medico = medicoRepository.findByUsuarioNombreContainingIgnoreCase(doctor);
         return medico != null;
     }
 
-
     public Iterable<Cita> FiltradoCitasPaciente(String status, String paciente, String id) {
-        // Si no se proporciona ni estado ni paciente, filtra solo por la ID del usuario.
         if ((status == null || status.isEmpty()) && (paciente == null || paciente.isEmpty())) {
-            return citaRepository.findByUsuarioId(id); // Filtra solo por la ID del usuario (en lugar de paciente).
+            return citaRepository.findByUsuarioId(id);
         }
 
-        // Si se proporciona estado, filtra por estado y ID del usuario.
         if (status != null && !status.isEmpty()) {
-            return citaRepository.findByStatusAndUsuarioId(status, id); // Filtra por estado y ID del usuario.
+            return citaRepository.findByStatusAndUsuarioId(status, id);
         }
 
-        // Si se proporciona nombre de paciente, verifica si existe y filtra por nombre del usuario y ID del usuario.
         if (paciente != null && !paciente.isEmpty()) {
             if (pacienteExisteEnBaseDeDatos(paciente)) {
-                return citaRepository.findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(paciente, id); // Filtra por nombre del paciente (usuario) y ID.
+                return citaRepository.findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(paciente, id);
             } else {
-                return new ArrayList<>(); // Si el paciente no existe, devuelve una lista vacía.
+                return new ArrayList<>();
             }
         }
-
-        // Si solo la ID del usuario está presente, filtra solo por la ID del usuario.
         return citaRepository.findByUsuarioId(id);
     }
-
 }

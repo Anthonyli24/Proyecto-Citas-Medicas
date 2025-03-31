@@ -28,11 +28,13 @@ public class controller {
     @Autowired
     private Service service;
 
-    @GetMapping("/about")
-    public String About(Model modeL) {
-
-        return "/presentation/About/about";
+    @GetMapping("/")
+    public String redirigir() {
+        return "redirect:/home";
     }
+
+    @GetMapping("/about")
+    public String About(Model modeL) { return "/presentation/About/about"; }
 
     @GetMapping("/login")
     public String Login(Model model) {
@@ -51,7 +53,7 @@ public class controller {
 
     @GetMapping("/notAuthorized")
     public String notAuthorized(Model model) {
-        return "redirect:/presentation/Login/notAuthorized";
+        return "/presentation/Login/notAuthorized";
     }
 
     @GetMapping("/MiPerfil")
@@ -59,28 +61,16 @@ public class controller {
         String username = principal.getName();
         Usuario usuario = service.findUsuarioById(username);
         List<Horario> horarios = service.obtenerHorariosPorMedico(username);
-
         if (usuario == null) {
             return "redirect:/login";
         }
-
         model.addAttribute("horarios", horarios);
         model.addAttribute("usuario", usuario);
         return "presentation/Home/MiPerfil";
     }
 
-
-    @GetMapping("/")
-    public String redirigir() {
-        return "redirect:/home";
-    }
-
-
     @GetMapping("/RegistroExitoso")
     public String RegistroExitoso(Model model) {
         return "redirect: /";
     }
-
-
 }
-

@@ -1,30 +1,26 @@
 package com.example.proyecto_sistema_citas.presentation.Citas;
 
-
+import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import org.springframework.ui.Model;
+import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import com.example.proyecto_sistema_citas.logic.Cita;
 import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
 import com.example.proyecto_sistema_citas.logic.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @org.springframework.stereotype.Controller("Citas")
 public class Controller {
-
     @Autowired
     private Service service;
-
 
     @GetMapping("/confirmar")
     public String confirmar(@RequestParam("did") String doctorId,
@@ -46,19 +42,15 @@ public class Controller {
             model.addAttribute("fecha", "Fecha no válida");
             model.addAttribute("hora", "Hora no válida");
         }
-
         return "presentation/Home/confirmar";
     }
 
-
-
     @GetMapping("/appointment/confirm")
-    public String AgendarCita(@RequestParam("did") String medicoId, // Cambiar a String para manejar identificadores como "M001"
-                              @RequestParam("ddt") String fechaHora, // Recibe el parámetro 'ddt' que contiene "fechaTtime"
+    public String AgendarCita(@RequestParam("did") String medicoId,
+                              @RequestParam("ddt") String fechaHora,
                               @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
-
         Cita cita = new Cita();
-        cita.setMedico(service.obtenerMedicoPorId(medicoId)); // El ID es un String, no Long
+        cita.setMedico(service.obtenerMedicoPorId(medicoId));
         cita.setUsuario(usuario);
         String[] fechaHoraParts = fechaHora.split("T");
         DateTimeFormatter formatterFecha = DateTimeFormatter.ofPattern("d/M/yy");
@@ -69,9 +61,8 @@ public class Controller {
         cita.setHora(hora);
         cita.setStatus("Pendiente");
         service.agendarCita(cita);
-        return "/presentation/Home/home";
+        return "redirect:/home";
     }
-
 
     @GetMapping("/book")
     public String redirigirReserva(@RequestParam("did") String doctorId,
@@ -87,9 +78,8 @@ public class Controller {
                               @RequestParam(value = "doctor", defaultValue = "") String doctor, Model model,
                               @AuthenticationPrincipal(expression = "usuario") Usuario usuario){
 
-        // Si no se recibe status, lo dejamos vacío.
         if (status == null || status.isEmpty()) {
-            status = "";  // O podrías poner null si prefieres
+            status = "";
         }
 
         Iterable<Cita> citas = service.FiltradoCitas(status, doctor, usuario.getId());
@@ -97,35 +87,34 @@ public class Controller {
         return "/presentation/Cita/historial";
     }
 
-
-    @GetMapping("/AgregarNotas/{id}")
+    @GetMapping("/agregarNotas/{id}")
     public String AgregarNotas(@PathVariable("id") String id, Model model){
-        System.out.println("ID de la cita: " + id);
         Cita cita = service.obtenerCitaPorId(id);
         model.addAttribute("cita", cita);
         model.addAttribute("Notas");
-        return "/presentation/Cita/AgregarNotas";
+        return "/presentation/Cita/agregarNotas";
     }
 
-    @PostMapping("/AgregarNotas/{id}")
+    @PostMapping("/agregarNotas/{id}")
     public String guardarNotas(@PathVariable("id") String id, @RequestParam("nota") String nota) {
         Cita cita = service.obtenerCitaPorId(id);
         cita.setNotas(nota);
-        service.actualizarCita(cita); // Actualiza la cita con las notas
-         // Guardar los cambios
-        return "redirect:/historial"; // Redirige a la lista de citas u otra vista
+        service.actualizarCita(cita);
+        return "redirect:/historial";
     }
-
 
     @GetMapping("/citas/filtro/paciente")
     public String filtroPacientes(@RequestParam(value = "status", required = false) String status,
-                                   @RequestParam(value = "paciente", defaultValue = "") String paciente, Model model,
+                                  @RequestParam(value = "paciente", defaultValue = "") String doctor, Model model,
                                   @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
 
-        Iterable<Cita> citas = service.FiltradoCitasPaciente(status, paciente, usuario.getId());
+        if (status == null || status.isEmpty()) {
+            status = "";
+        }
+
+        Iterable<Cita> citas = service.FiltradoCitas("Completado", doctor, usuario.getId());
         model.addAttribute("CitasPaciente", citas);
-        return "/presentation/Cita/HistorialPaciente";
+        System.out.println("citas: " + citas);
+        return "/presentation/Cita/historialPaciente";
     }
-
-
 }
