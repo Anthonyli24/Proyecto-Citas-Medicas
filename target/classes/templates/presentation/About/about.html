@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="">
 <head>
     <meta charset="UTF-8">
     <title>Acerca de - Sistema de Citas Médicas</title>
@@ -12,12 +12,74 @@
         <img src="/images/logo.jpg" alt="Logo">
         <h3>Medical Appointments</h3>
     </div>
-    <div class="title">
-        <h1>Acerca de Nosotros</h1>
+    <div class="contact">
+        📞 +506 5467 0937
     </div>
     <div class="nav-links">
-        <a href="/home">Search</a>
-        <a href="/login">Login</a>
+        <th:block sec:authorize="isAnonymous()">
+            <a href="/home">Search</a>
+            <a href="/login">Login</a>
+        </th:block>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <th:block th:with="rol=${#authentication.principal.getRol}">
+                <th:block th:if="${rol == 1}">
+                    <ul class="dropdown">
+                        <li class="dropdown-item">
+                            <a href="/historialPaciente">Historial</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="/home">Search</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="#">
+                                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+                            </a>
+                            <ul class="dropdown-submenu">
+                                <a href="/MiPerfil"><span sec:authentication="name"></span></a>
+                                <a href="/logout">Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
+                </th:block>
+                <th:block th:if="${rol == 2}">
+                    <ul class="dropdown">
+                        <li class="dropdown-item">
+                            <a href="/historial">Citas</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="/home">Search</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="#">
+                                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+                            </a>
+                            <ul class="dropdown-submenu">
+                                <a href="/MiPerfil"><span sec:authentication="name"></span></a>
+                                <a href="/logout">Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
+                </th:block>
+                <th:block th:if="${rol == 3}">
+                    <ul class="dropdown">
+                        <li class="dropdown-item">
+                            <a href="/Gestion">Gestion</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="/home">Search</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="#"><span sec:authentication="name"></span></a>
+                            </a>
+                            <ul class="dropdown-submenu">
+                                <a href="/logout">Logout</a>
+                            </ul>
+                        </li>
+                    </ul>
+                </th:block>
+            </th:block>
+        </th:block>
     </div>
 </div>
 

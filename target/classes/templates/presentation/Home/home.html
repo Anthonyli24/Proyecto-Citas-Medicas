@@ -107,7 +107,7 @@
                 <button class="prevBtn" onclick="changeDate(this, -1)">Prev</button>
             </div>
 
-            <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture rounded-circle">
+            <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture">
             <div class="doctor-details">
                 <strong th:text="${medico.usuario.nombre}"></strong>
                 <span class="price" th:text="${medico.costo}"></span>
