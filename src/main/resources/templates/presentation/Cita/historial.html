@@ -98,8 +98,10 @@
 
 <div>
     <div th:each="cita : ${CitasMedico}" class="appointment-card">
-<!--            <img th:src="@{/usuario/imagen/{id}(id=${cita.usuario.id})}" alt="imagen-usuario" class="picture rounded-circle">            <h5 th:text="${cita.usuario.nombre}">Nombre del usuario</h5>-->
-            <span class="text-primary" th:text="${cita.usuario.id}">Cédula</span>
+        <img src="doctor-placeholder.jpg" class="profile-img me-3" alt="Doctor">
+        <div class="flex-grow-1">
+            <h5 th:text="${cita.getUsuario().getId()}">Nombre del Paciente</h5>
+            <span class="text-primary" th:text="${cita.getUsuario().getNombre()}">Código</span>
         </div>
         <div class="text-end">
             <span th:classappend="${cita.status == 'Pendiente' ? 'status-pending' : (cita.status == 'Completada' ? 'status-attended' : '')}" th:text="${cita.status}">Estado</span>
