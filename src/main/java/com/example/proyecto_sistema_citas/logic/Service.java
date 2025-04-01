@@ -1,6 +1,8 @@
 package com.example.proyecto_sistema_citas.logic;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.time.LocalTime;
@@ -169,6 +171,11 @@ public class Service {
 
     public Usuario encontrarUsuarioPorNombre(String nombre) {
         return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    public boolean verificarDisponibilidad(LocalDate fecha, LocalTime hora, Medico medico) {
+        List<Cita> citasExistentes = citaRepository.findByFechaAndHoraAndMedico(fecha, hora, medico);
+        return citasExistentes.isEmpty();  // Si la lista está vacía, el horario está disponible
     }
 
 

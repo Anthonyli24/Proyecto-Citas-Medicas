@@ -84,6 +84,10 @@
     </div>
 </div>
 
+<div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+</div>
+
 <div class="search-bar">
     <form action="/filtrado/medicos" method="POST">
         <div class="input-container">
@@ -103,9 +107,6 @@
 <table class="appointment-table">
     <tr th:each="medico : ${medicos}" th:if="${medico.status == 'Aprobado'}" class="appointment-row">
         <td class="doctor-info">
-            <div class="button-container">
-                <button class="prevBtn" onclick="changeDate(this, -1)">Prev</button>
-            </div>
 
             <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture">
             <div class="doctor-details">
@@ -118,18 +119,19 @@
 
         <td class="availability">
             <div class="dates-times-container">
-                <div th:each="fecha : ${medico.fechas}" class="date-container">
+                <div th:each="fecha, iterStat : ${disponibilidad.get(medico.id)}">
                     <div class="date" th:text="${#temporals.format(fecha.key, 'dd/MM/yyyy')}"></div>
                     <div class="times">
-                        <a th:each="hora : ${fecha.value}"
-                           th:href="@{/book(did=${medico.id}, ddt=${fecha.key + 'T' + hora})}">
+                        <a th:each="hora : ${fecha.value}">
                             <button th:text="${hora}"></button>
                         </a>
                     </div>
                 </div>
             </div>
             <div class="button-container">
-                <button class="nextBtn" onclick="changeDate(this, 1)">Next</button>
+                <a th:href="@{/home/{id}/schedule(id=${medico.id})}" class="btn btn-primary">
+                    <button>Schedule</button>
+                </a>
             </div>
         </td>
     </tr>
@@ -144,25 +146,5 @@
     </div>
     <div>©2019 Tsf, Inc.</div>
 </div>
-<script>
-    function changeDate(button, weeks) {
-        const row = button.closest('tr');
-        const dateElements = row.querySelectorAll('.date');
-
-        dateElements.forEach(dateElement => {
-            const currentDate = new Date(dateElement.dataset.date); // Obtiene la fecha del atributo data-date
-            const newDate = new Date(currentDate.getTime() + (weeks * 7 * 24 * 60 * 60 * 1000));
-
-            // Formatea la fecha al formato dd/mm/aaaa
-            const day = String(newDate.getDate()).padStart(2, '0');
-            const month = String(newDate.getMonth() + 1).padStart(2, '0');
-            const year = newDate.getFullYear();
-            dateElement.textContent = `${day}/${month}/${year}`;
-
-            // Actualiza el atributo data-date con la nueva fecha
-            dateElement.dataset.date = `${year}-${month}-${day}`;
-        });
-    }
-</script>
 </body>
 </html>

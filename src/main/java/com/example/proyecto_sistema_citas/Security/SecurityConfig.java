@@ -19,7 +19,7 @@ public class SecurityConfig {
                         "/appointments", "/notAuthorized").permitAll()
                         .requestMatchers("/Gestion","/medico/aceptar").hasAuthority("Administrador")
                         .requestMatchers("/historial","/agregarNotas/","/medico/actualizar","/CancelarCita/","/AceptarCita/").hasAuthority("Medico")
-                        .requestMatchers("/historialPaciente","/confirmar").hasAuthority("Paciente")
+                        .requestMatchers("/historialPaciente","/confirmar","/home/**").hasAuthority("Paciente")
                         .anyRequest().authenticated())
                 .formLogin(customizer->customizer.loginPage("/login").defaultSuccessUrl("/home", true).permitAll())
                 .logout(customizer->customizer.permitAll().logoutSuccessUrl("/login").invalidateHttpSession(true)

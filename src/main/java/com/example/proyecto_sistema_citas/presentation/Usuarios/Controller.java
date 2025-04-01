@@ -4,6 +4,12 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.example.proyecto_sistema_citas.logic.Medico;
 import org.springframework.ui.Model;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +21,30 @@ import com.example.proyecto_sistema_citas.logic.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+
 @org.springframework.stereotype.Controller("usuarios")
 public class Controller {
     @Autowired
     private Service service;
 
     @GetMapping("/home")
-    public String ListarUsuarios(Model model) {
+    public String ListarUsuarios(@RequestParam(value = "semana", required = false, defaultValue = "0") int semana, Model model, @RequestParam(value = "error", required = false) String error) {
+        Map<String, Map<LocalDate, List<String>>> disponibilidad = new HashMap<>();
+
+        for (Medico medico : service.medicoFindAll()) {
+            Map<LocalDate, List<String>> fechas = medico.getFechas(semana);
+            disponibilidad.put(medico.getId(), fechas);
+        }
+
         model.addAttribute("medicos", service.medicoFindAll());
+        model.addAttribute("disponibilidad", disponibilidad);
+        model.addAttribute("semana", semana);
+
+        if (error != null) {
+            model.addAttribute("error", "El horario seleccionado ya está ocupado. Por favor, elige otro.");
+        }
+
         return "/presentation/Home/home";
     }
 

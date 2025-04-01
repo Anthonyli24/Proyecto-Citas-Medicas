@@ -1,9 +1,16 @@
 package com.example.proyecto_sistema_citas.data;
 
 import com.example.proyecto_sistema_citas.logic.Cita;
+import com.example.proyecto_sistema_citas.logic.Medico;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface CitaRepository extends CrudRepository<Cita, String> {
     List<Cita> findByUsuarioId(String usuarioId);
@@ -21,4 +28,7 @@ public interface CitaRepository extends CrudRepository<Cita, String> {
     Iterable<Cita> findByUsuarioNombreContainingIgnoreCaseAndUsuarioId(String paciente, String id);
 
     Iterable<Cita> findByStatus(String status);
+
+    @Query("SELECT c FROM Cita c WHERE c.fecha = :fecha AND c.hora = :hora AND c.medico = :medico")
+    List<Cita> findByFechaAndHoraAndMedico(@Param("fecha") LocalDate fecha, @Param("hora") LocalTime hora, @Param("medico") Medico medico);
 }

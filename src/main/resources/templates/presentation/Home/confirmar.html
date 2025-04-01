@@ -80,9 +80,12 @@
        <a th:href="@{/appointment/confirm(did=${medico.id}, ddt=${fecha} + 'T' + ${hora})}">
         <button class="confirm-btn">Confirm</button>
       </a>
-      <a href="/home">
+      <a th:href="@{/home/{id}/schedule(id=${medico.id})}">
         <button class="cancel-btn">Cancel</button>
       </a>
+    </div>
+    <div th:if="${error}" class="error-message">
+      <p th:text="${error}"></p>
     </div>
   </div>
 </div>

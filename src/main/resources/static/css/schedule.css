@@ -19,61 +19,6 @@ html, body {
     margin-bottom: 50px;
 }
 
-.search-bar{
-    width: 100%;
-    max-width: 1430px;
-    align-content: center;
-    align-self: center;
-    align-items: center;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    padding: 25px;
-    background-color: #f0f0f0;
-    border: none;
-    border-radius: 14px;
-}
-
-.input-container {
-    display: flex;
-    gap: 20px;
-}
-
-.input-group {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 25px;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
-.input-label {
-    background: #e0e0e0;
-    padding: 12px 15px;
-    font-size: 14px;
-    color: black;
-    white-space: nowrap;
-}
-
-.input-group input {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    outline: none;
-}
-
-.search-bar button {
-    padding: 12px;
-    margin-left: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
 .logo {
     display: flex;
     align-items: center;
@@ -183,6 +128,13 @@ html, body {
     margin-bottom: 15px;
 }
 
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .appointment-table {
     position: relative;
     width: 100%;
@@ -211,11 +163,6 @@ html, body {
     vertical-align: middle;
 }
 
-.button-container {
-    margin-left: -30px;
-}
-
-
 .button-container button {
     background: #e0ecff;
     color: #007aff;
@@ -226,13 +173,14 @@ html, body {
     cursor: pointer;
     display: flex;
     align-items: center;
+    margin-right: 10px;
     top: 50%;
-
 }
 
 .appointment-table button {
     background: #007aff;
     color: white;
+
 }
 
 .appointment-table .availability {

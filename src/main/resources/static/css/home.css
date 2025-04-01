@@ -170,6 +170,19 @@ html, body {
     background-color: #f1f1f1;
 }
 
+.error-message {
+    color: #d9534f;
+    background-color: #f8d7da;
+    border: 1px solid #d9534f;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
 .appointment-table {
     position: relative;
     width: 100%;
@@ -198,6 +211,11 @@ html, body {
     vertical-align: middle;
 }
 
+.button-container {
+    margin-left: -30px;
+}
+
+
 .button-container button {
     background: #e0ecff;
     color: #007aff;
@@ -208,8 +226,8 @@ html, body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    margin-right: 10px;
     top: 50%;
+
 }
 
 .appointment-table button {

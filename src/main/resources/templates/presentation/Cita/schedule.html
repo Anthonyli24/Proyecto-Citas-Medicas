@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Sistema de Citas Médicas</title>
+  <link rel="stylesheet" href="/css/schedule.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="header">
+  <div class="logo">
+    <img src="/images/logo.jpg" alt="Logo">
+    <h3>Medical Appointments</h3>
+  </div>
+  <div class="contact">
+    📞 +506 5467 0937
+  </div>
+  <div class="nav-links">
+    <th:block sec:authorize="isAnonymous()">
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
+    </th:block>
+
+    <th:block sec:authorize="isAuthenticated()">
+      <th:block th:with="rol=${#authentication.principal.getRol}">
+        <th:block th:if="${rol == 1}">
+          <ul class="dropdown">
+            <li class="dropdown-item">
+              <a href="/about">About</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/historialPaciente">Historial</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="/home">Search</a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img th:src="@{/usuario/imagen/{id}(id=${#authentication.principal.username})}" alt="User" class="user-avatar">
+              </a>
+              <ul class="dropdown-submenu">
+                <a href="/MiPerfil"><span sec:authentication="name"></span></a>
+                <a href="/logout">Logout</a>
+              </ul>
+            </li>
+          </ul>
+        </th:block>
+      </th:block>
+    </th:block>
+  </div>
+</div>
+
+<div class="table-container">
+<table class="appointment-table">
+  <tr th:each="medico : ${medico}" th:if="${medico.status == 'Aprobado'}" class="appointment-row">
+    <td class="doctor-info">
+      <div class="button-container">
+        <a th:href="@{/home/{id}/schedule(semana=${semana - 1}, id=${medico.id})}"
+           th:if="${semana > minSemana}">
+          <button>Prev</button>
+        </a>
+      </div>
+
+      <img th:src="@{/usuario/imagen/{id}(id=${medico.id})}" alt="Medico" class="picture">
+      <div class="doctor-details">
+        <strong th:text="${medico.usuario.nombre}"></strong>
+        <span class="price" th:text="${medico.costo}"></span>
+        <p th:text="${medico.especialidad}"></p>
+        <p class="hospital" th:text="${medico.localidad}"></p>
+      </div>
+    </td>
+
+    <td class="availability">
+      <div class="dates-times-container">
+        <div th:each="fecha, iterStat : ${disponibilidad.get(medico.id)}">
+          <div class="date" th:text="${#temporals.format(fecha.key, 'dd/MM/yyyy')}"></div>
+          <div class="times">
+            <a th:each="hora : ${fecha.value}"
+               th:href="@{/book(did=${medico.id}, ddt=${fecha.key + 'T' + hora})}">
+              <button th:text="${hora}"></button>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <a th:href="@{/home/{id}/schedule(semana=${semana + 1}, id=${medico.id})}"
+           th:if="${semana < maxSemana}">
+          <button>Next</button>
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>
+</div>
+
+<div class="footer">
+  <div>Total Soft Inc.</div>
+  <div class="social-icons">
+    <img src="/images/twitter.png" alt="Twitter">
+    <img src="/images/facebook.png" alt="Facebook">
+    <img src="/images/instagram.png" alt="Instagram"/>
+  </div>
+  <div>©2019 Tsf, Inc.</div>
+</div>
+</body>
+</html>
+
+

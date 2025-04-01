@@ -6,6 +6,9 @@ import java.time.LocalTime;
 import org.springframework.ui.Model;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.example.proyecto_sistema_citas.logic.Cita;
@@ -50,21 +53,37 @@ public class Controller {
     @GetMapping("/appointment/confirm")
     public String AgendarCita(@RequestParam("did") String medicoId,
                               @RequestParam("ddt") String fechaHora,
-                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario) {
+                              @AuthenticationPrincipal(expression = "usuario") Usuario usuario,
+                              Model model) {
         Cita cita = new Cita();
-        cita.setMedico(service.obtenerMedicoPorId(medicoId));
+        Medico medico = service.obtenerMedicoPorId(medicoId);
+        cita.setMedico(medico);
         cita.setUsuario(usuario);
+
         String[] fechaHoraParts = fechaHora.split("T");
+
         DateTimeFormatter formatterFecha = DateTimeFormatter.ofPattern("d/M/yy");
         LocalDate fecha = LocalDate.parse(fechaHoraParts[0], formatterFecha);
+
         DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime hora = LocalTime.parse(fechaHoraParts[1], formatterHora);
+
         cita.setFecha(fecha);
         cita.setHora(hora);
         cita.setStatus("Pendiente");
+
+        boolean disponible = service.verificarDisponibilidad(fecha, hora, medico);
+        if (!disponible) {
+            return "redirect:/home?error=horario_ocupado";
+        }
+
+
         service.agendarCita(cita);
+
         return "redirect:/home";
     }
+
+
 
     @GetMapping("/book")
     public String redirigirReserva(@RequestParam("did") String doctorId,
@@ -118,5 +137,29 @@ public class Controller {
         return "/presentation/Cita/historial";
     }
 
+    @GetMapping("/home/{medicoId}/schedule")
+    public String schedulePage(@PathVariable String medicoId,
+                               @RequestParam(value = "semana", required = false, defaultValue = "0") int semana,
+                               Model model) {
+        int maxSemana = 1;
+        int minSemana = -1;
 
+        if (semana > maxSemana) {
+            semana = maxSemana;
+        } else if (semana < minSemana) {
+            semana = minSemana;
+        }
+
+        Map<String, Map<LocalDate, List<String>>> disponibilidad = new HashMap<>();
+        Medico medico = service.obtenerMedicoPorId(medicoId);
+        Map<LocalDate, List<String>> fechas = medico.getFechas(semana);
+        disponibilidad.put(medico.getId(), fechas);
+
+        model.addAttribute("medico", medico);
+        model.addAttribute("disponibilidad", disponibilidad);
+        model.addAttribute("semana", semana);
+        model.addAttribute("maxSemana", maxSemana);
+        model.addAttribute("minSemana", minSemana);
+        return "/presentation/Cita/schedule";
+    }
 }

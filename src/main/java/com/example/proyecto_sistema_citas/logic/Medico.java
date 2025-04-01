@@ -110,19 +110,19 @@ public class Medico {
         }
     }
 
-    public Map<LocalDate, List<String>> getFechas() {
+    public Map<LocalDate, List<String>> getFechas(int semanaOffset) {
         Map<LocalDate, List<String>> disponibilidad = new TreeMap<>();
-        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaBase = LocalDate.now().plusWeeks(semanaOffset);
 
         for (Horario horario : horarios) {
             DayOfWeek diaSemana = convertirDiaSemana(horario.getDia());
-            LocalDate proximaFecha = obtenerProximaFecha(fechaActual, diaSemana);
-
+            LocalDate proximaFecha = obtenerProximaFecha(fechaBase, diaSemana);
             List<String> horariosGenerados = generarHorarios(horario);
             disponibilidad.put(proximaFecha, horariosGenerados);
         }
         return disponibilidad;
     }
+
 
     public Map<LocalDate, List<String>> nextWeek() {
         Map<LocalDate, List<String>> disponibilidad = new TreeMap<>();
