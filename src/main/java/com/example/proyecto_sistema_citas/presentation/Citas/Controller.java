@@ -9,8 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-
+import java.util.stream.Collectors;
 import com.example.proyecto_sistema_citas.logic.Cita;
 import com.example.proyecto_sistema_citas.logic.Medico;
 import com.example.proyecto_sistema_citas.logic.Service;
@@ -71,19 +70,10 @@ public class Controller {
         cita.setFecha(fecha);
         cita.setHora(hora);
         cita.setStatus("Pendiente");
-
-        boolean disponible = service.verificarDisponibilidad(fecha, hora, medico);
-        if (!disponible) {
-            return "redirect:/home?error=horario_ocupado";
-        }
-
-
         service.agendarCita(cita);
 
         return "redirect:/home";
     }
-
-
 
     @GetMapping("/book")
     public String redirigirReserva(@RequestParam("did") String doctorId,
@@ -93,7 +83,6 @@ public class Controller {
 
         return "redirect:/confirmar?did=" + encodedDoctorId + "&ddt=" + encodedDateTime;
     }
-
 
     @GetMapping("/agregarNotas/{id}")
     public String AgregarNotas(@PathVariable("id") String id, Model model){
@@ -124,7 +113,6 @@ public class Controller {
         return "/presentation/Cita/historialPaciente";
     }
 
-
     @GetMapping("/citas/filtro/medico")
     public String FiltroCitas(@RequestParam(value = "status", required = false) String status,
                               @RequestParam(value = "paciente", defaultValue = "") String paciente,
@@ -151,15 +139,31 @@ public class Controller {
         }
 
         Map<String, Map<LocalDate, List<String>>> disponibilidad = new HashMap<>();
+
         Medico medico = service.obtenerMedicoPorId(medicoId);
+
         Map<LocalDate, List<String>> fechas = medico.getFechas(semana);
+
         disponibilidad.put(medico.getId(), fechas);
 
-        model.addAttribute("medico", medico);
+        Map<LocalDate, List<String>> ocupadosPorFecha = new HashMap<>();
+        for (Map.Entry<LocalDate, List<String>> entry : fechas.entrySet()) {
+            LocalDate fecha = entry.getKey();
+            List<LocalTime> ocupados = service.obtenerHorariosOcupados(medico, fecha);
+            List<String> horasOcupadas = ocupados.stream()
+                    .map(LocalTime::toString)
+                    .collect(Collectors.toList());
+            ocupadosPorFecha.put(fecha, horasOcupadas);
+        }
+
+        model.addAttribute("ocupados", ocupadosPorFecha);
         model.addAttribute("disponibilidad", disponibilidad);
+        model.addAttribute("medico", medico);
         model.addAttribute("semana", semana);
+        model.addAttribute("fechaActual", LocalDate.now());
         model.addAttribute("maxSemana", maxSemana);
         model.addAttribute("minSemana", minSemana);
+
         return "/presentation/Cita/schedule";
     }
 }

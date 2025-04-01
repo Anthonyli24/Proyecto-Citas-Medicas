@@ -47,7 +47,6 @@ public class controller {
             redirectAttributes.addAttribute("id", id);
             return "redirect:/agregarNotas/{id}";
         }
-
         return "redirect:/historial";
     }
 

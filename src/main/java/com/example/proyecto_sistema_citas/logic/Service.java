@@ -28,8 +28,6 @@ public class Service {
     @Autowired
     private CitaRepository citaRepository;
 
-
-
     public Iterable<Usuario> usuarioFindAll(){
        return usuarioRepository.findAll();
    }
@@ -157,8 +155,6 @@ public class Service {
         return citaRepository.findByMedicoId(id);
     }
 
-
-
     private boolean pacienteExisteEnBaseDeDatos(String paciente) {
         Usuario pacienteUsuario = usuarioRepository.findByNombreContainingIgnoreCase(paciente);
         return pacienteUsuario != null;
@@ -173,11 +169,9 @@ public class Service {
         return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
-    public boolean verificarDisponibilidad(LocalDate fecha, LocalTime hora, Medico medico) {
-        List<Cita> citasExistentes = citaRepository.findByFechaAndHoraAndMedico(fecha, hora, medico);
-        return citasExistentes.isEmpty();  // Si la lista está vacía, el horario está disponible
+    public List<LocalTime> obtenerHorariosOcupados(Medico medico, LocalDate fecha) {
+        return citaRepository.findOcupadosByMedicoAndFecha(medico, fecha);
     }
-
 
     public Iterable<Cita> filtroHistorialPaciente(String status, String id, String idpaciente) {
         if (id != null && !id.isEmpty()) {

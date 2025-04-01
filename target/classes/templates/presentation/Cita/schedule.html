@@ -76,10 +76,20 @@
         <div th:each="fecha, iterStat : ${disponibilidad.get(medico.id)}">
           <div class="date" th:text="${#temporals.format(fecha.key, 'dd/MM/yyyy')}"></div>
           <div class="times">
-            <a th:each="hora : ${fecha.value}"
-               th:href="@{/book(did=${medico.id}, ddt=${fecha.key + 'T' + hora})}">
-              <button th:text="${hora}"></button>
-            </a>
+            <div th:each="hora : ${fecha.value}">
+              <a th:if="${not (fecha.key.isBefore(fechaActual) or ocupados.get(fecha.key).contains(hora))}"
+                 th:href="@{/book(did=${medico.id}, ddt=${fecha.key + 'T' + hora})}">
+                <button th:text="${hora}"
+                        th:disabled="${fecha.key.isBefore(fechaActual) or ocupados.get(fecha.key).contains(hora)}">
+                </button>
+              </a>
+              <a>
+              <button th:if="${fecha.key.isBefore(fechaActual) or ocupados.get(fecha.key).contains(hora)}"
+                      th:text="${hora}"
+                      th:disabled="true">
+              </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -93,6 +103,12 @@
     </td>
   </tr>
 </table>
+</div>
+
+<div class="go-back-container">
+  <a href="/home">
+    <button class="go-back-button">Go Back</button>
+  </a>
 </div>
 
 <div class="footer">

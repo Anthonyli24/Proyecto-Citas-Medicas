@@ -29,6 +29,6 @@ public interface CitaRepository extends CrudRepository<Cita, String> {
 
     Iterable<Cita> findByStatus(String status);
 
-    @Query("SELECT c FROM Cita c WHERE c.fecha = :fecha AND c.hora = :hora AND c.medico = :medico")
-    List<Cita> findByFechaAndHoraAndMedico(@Param("fecha") LocalDate fecha, @Param("hora") LocalTime hora, @Param("medico") Medico medico);
+    @Query("SELECT c.hora FROM Cita c WHERE c.medico = :medico AND c.fecha = :fecha")
+    List<LocalTime> findOcupadosByMedicoAndFecha(@Param("medico") Medico medico, @Param("fecha") LocalDate fecha);
 }
