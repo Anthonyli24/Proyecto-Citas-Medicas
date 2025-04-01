@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.presentation.Security;
+package com.example.proyecto_sistema_citas.Security;
 
 import java.util.List;
 import java.util.ArrayList;

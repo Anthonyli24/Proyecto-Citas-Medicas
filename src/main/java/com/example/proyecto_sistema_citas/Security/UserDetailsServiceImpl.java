@@ -1,4 +1,4 @@
-package com.example.proyecto_sistema_citas.presentation.Security;
+package com.example.proyecto_sistema_citas.Security;
 
 import org.springframework.stereotype.Service;
 import com.example.proyecto_sistema_citas.logic.Usuario;
