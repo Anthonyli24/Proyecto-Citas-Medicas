@@ -173,6 +173,8 @@ public class Service {
         return citaRepository.findOcupadosByMedicoAndFecha(medico, fecha);
     }
 
+
+
     public Iterable<Cita> filtroHistorialPaciente(String status, String id, String idpaciente) {
         if (id != null && !id.isEmpty()) {
             if (status != null && !status.isEmpty()) {

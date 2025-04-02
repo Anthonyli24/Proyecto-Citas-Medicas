@@ -1,6 +1,10 @@
 package com.example.proyecto_sistema_citas.presentation.Medicos;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.proyecto_sistema_citas.logic.Medico;
@@ -18,10 +22,22 @@ public class Controller {
 
     @PostMapping("/filtrado/medicos")
     public String filtrarMedicos(@RequestParam(required = false) String especialidad,
-                             @RequestParam(required = false) String localidad,
-                             Model model) {
+                                 @RequestParam(required = false) String localidad,
+                                 @RequestParam(value = "semana", required = false, defaultValue = "0") int semana,
+                                 Model model) {
+        Map<String, Map<LocalDate, List<String>>> disponibilidad = new HashMap<>();
         List<Medico> medicosFiltrados = service.FiltradoMedicos(especialidad, localidad);
-     model.addAttribute("medicos", medicosFiltrados);
+
+        for (Medico medico : medicosFiltrados) {
+            Map<LocalDate, List<String>> fechas = medico.getFechas(semana);
+            disponibilidad.put(medico.getId(), fechas);
+        }
+
+        model.addAttribute("medicos", service.medicoFindAll());
+        model.addAttribute("disponibilidad", disponibilidad);
+        model.addAttribute("semana", semana);
+        model.addAttribute("medicos", medicosFiltrados);
+
         return "/presentation/home/home";
     }
 
