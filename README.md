@@ -4,8 +4,6 @@ Este proyecto es una implementación en **Java** de un sistema web para la **ges
 
 El sistema sigue una **arquitectura en tres capas** (Presentación, Lógica y Datos) y fue desarrollado utilizando el framework **Spring MVC** junto con el motor de plantillas **Thymeleaf**, siguiendo el patrón **Modelo-Vista-Controlador (MVC)**. El control de acceso está basado en sesiones de usuario en el servidor.
 
-> Proyecto desarrollado como parte del curso de **Programación IV** de la **Universidad Nacional de Costa Rica (UNA)**.
-
 ---
 
 ## Integrantes del Proyecto
