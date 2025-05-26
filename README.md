@@ -1,4 +1,4 @@
-# Sistema Web de Gestión de Citas Médicas (2024)
+# Sistema Web de Gestión de Citas Médicas
 
 Este proyecto es una implementación en **Java** de un sistema web para la **gestión de citas médicas en línea**, permitiendo a pacientes agendar citas con médicos especialistas, y a los médicos gestionar su agenda. Toda la información se almacena en una base de datos **MySQL**.
 
