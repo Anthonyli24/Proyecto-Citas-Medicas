@@ -1,10 +1,8 @@
 # Sistema Web de Gestión de Citas Médicas
 
-Este proyecto es una implementación en **Java** de un sistema web para la **gestión de citas médicas en línea**, permitiendo a pacientes agendar citas con médicos especialistas, y a los médicos gestionar su agenda. Toda la información se almacena en una base de datos **MySQL**.
+Este proyecto es una implementación en Java de un sistema web para la gestión de citas médicas en línea, permitiendo a pacientes agendar citas con médicos especialistas, y a los médicos gestionar su agenda. Toda la información se almacena en una base de datos MySQL.
 
-El sistema sigue una **arquitectura en tres capas** (Presentación, Lógica y Datos) y fue desarrollado utilizando el framework **Spring MVC** junto con el motor de plantillas **Thymeleaf**, siguiendo el patrón **Modelo-Vista-Controlador (MVC)**. El control de acceso está basado en sesiones de usuario en el servidor.
-
----
+El sistema sigue una arquitectura en tres capas (Presentación, Lógica y Datos) y fue desarrollado utilizando el framework Spring MVC junto con el motor de plantillas Thymeleaf, siguiendo el patrón Modelo-Vista-Controlador (MVC). El control de acceso está basado en sesiones de usuario en el servidor.
 
 ## Integrantes del Proyecto
 
@@ -12,9 +10,7 @@ El sistema sigue una **arquitectura en tres capas** (Presentación, Lógica y Da
 - Esteban Sánchez Sánchez  
 - Anthony Li Perera  
 
----
-
-## Funcionalidades Principales
+## Funcionalidades
 
 ### Autenticación y Registro
 - Registro e inicio de sesión para pacientes y médicos.
@@ -37,8 +33,3 @@ El sistema sigue una **arquitectura en tres capas** (Presentación, Lógica y Da
 ### Gestión del Administrador
 - Listado de médicos registrados.
 - Aprobación de nuevos registros de médicos.
-
----
-
-
-
